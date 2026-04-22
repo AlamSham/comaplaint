@@ -4,14 +4,6 @@
   "installCommand": "npm install",
   "framework": "nextjs",
   "regions": ["bom1"],
-  "env": {
-    "MONGODB_URI": "@mongodb_uri",
-    "NEXTAUTH_SECRET": "@nextauth_secret",
-    "NEXTAUTH_URL": "@nextauth_url",
-    "ADMIN_USERNAME": "@admin_username",
-    "ADMIN_PASSWORD": "@admin_password",
-    "NEXT_PUBLIC_BASE_URL": "@next_public_base_url"
-  },
   "functions": {
     "app/api/**/*.ts": {
       "maxDuration": 10
