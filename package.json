@@ -6,21 +6,40 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest",
+    "test:unit": "vitest run tests/unit",
+    "test:property": "vitest run tests/property",
+    "test:e2e": "playwright test",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
+    "seed": "tsx lib/db/seed.ts",
+    "db:reset": "tsx lib/db/reset.ts"
   },
   "dependencies": {
+    "@playwright/test": "^1.59.1",
+    "@vitest/ui": "^4.1.4",
+    "dotenv": "^17.4.2",
+    "fast-check": "^4.7.0",
+    "isomorphic-dompurify": "^3.3.0",
+    "mongoose": "^9.4.1",
     "next": "16.2.4",
+    "next-auth": "^4.24.14",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "vitest": "^4.1.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^6.0.1",
+    "@vitest/coverage-v8": "^4.1.4",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }
