@@ -11,7 +11,6 @@ export async function GET(request: NextRequest) {
     await connectDB();
 
     const templates = await Template.find()
-      .populate('guideRef')
       .sort({ createdAt: -1 })
       .lean();
 

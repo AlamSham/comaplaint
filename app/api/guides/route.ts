@@ -22,7 +22,6 @@ export async function GET(request: NextRequest) {
     if (language) query.language = language;
 
     const guides = await Guide.find(query)
-      .populate('portals')
       .sort({ createdAt: -1 })
       .lean();
 
