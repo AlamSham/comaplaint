@@ -8,7 +8,8 @@ export default withAuth({
 
 export const config = {
   matcher: [
-    '/admin/:path*',
+    // Temporarily disabled admin protection for debugging
+    // '/admin/:path*',
     '/api/guides/:path*',
     '/api/templates/:path*',
     '/api/portals/:path*',
