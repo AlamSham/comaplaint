@@ -1,7 +1,10 @@
-export const metadata = {
-  title: 'Privacy Policy - Consumer Complaint Portal',
-  description: 'Privacy policy and data protection practices of Consumer Complaint Portal',
-};
+import { createPageMetadata } from '@/lib/seo';
+
+export const metadata = createPageMetadata({
+  title: 'Privacy Policy',
+  description: 'Privacy policy and data protection practices of Consumer Complaint Portal.',
+  path: '/privacy',
+});
 
 export default function PrivacyPage() {
   return (
@@ -19,7 +22,7 @@ export default function PrivacyPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Introduction</h2>
             <p className="text-gray-700 mb-4">
-              Consumer Complaint Portal ("we", "us", "our") respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website.
+              Consumer Complaint Portal (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website.
             </p>
             <p className="text-gray-700 mb-4">
               हम आपकी गोपनीयता का सम्मान करते हैं और आपकी व्यक्तिगत जानकारी की सुरक्षा के लिए प्रतिबद्ध हैं।
@@ -181,7 +184,7 @@ export default function PrivacyPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">10. Children's Privacy</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">10. Children&apos;s Privacy</h2>
             <p className="text-gray-700 mb-4">
               Our website is not intended for children under 18 years of age. We do not knowingly collect personal information from children. If you believe we have collected information from a child, please contact us immediately.
             </p>
@@ -197,7 +200,7 @@ export default function PrivacyPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">12. Changes to Privacy Policy</h2>
             <p className="text-gray-700 mb-4">
-              We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated "Last Updated" date. Continued use of the website after changes constitutes acceptance of the updated policy.
+              We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated &quot;Last Updated&quot; date. Continued use of the website after changes constitutes acceptance of the updated policy.
             </p>
           </section>
 
@@ -241,7 +244,7 @@ export default function PrivacyPage() {
           <div className="mt-12 pt-8 border-t-2 border-gray-300 bg-green-50 p-6 rounded-lg">
             <h3 className="text-xl font-bold text-gray-900 mb-4">Your Privacy Matters</h3>
             <p className="text-gray-700 mb-4">
-              We are committed to protecting your privacy and handling your data responsibly. If you have any concerns, please don't hesitate to contact us.
+              We are committed to protecting your privacy and handling your data responsibly. If you have any concerns, please don&apos;t hesitate to contact us.
             </p>
             <p className="text-gray-700">
               आपकी गोपनीयता हमारे लिए महत्वपूर्ण है। किसी भी चिंता के लिए हमसे संपर्क करें।

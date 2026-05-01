@@ -1,7 +1,10 @@
-export const metadata = {
-  title: 'Terms of Service - Consumer Complaint Portal',
-  description: 'Terms and conditions for using Consumer Complaint Portal',
-};
+import { createPageMetadata } from '@/lib/seo';
+
+export const metadata = createPageMetadata({
+  title: 'Terms of Service',
+  description: 'Terms and conditions for using Consumer Complaint Portal.',
+  path: '/terms',
+});
 
 export default function TermsPage() {
   return (
@@ -19,7 +22,7 @@ export default function TermsPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">1. Acceptance of Terms</h2>
             <p className="text-gray-700 mb-4">
-              By accessing or using Consumer Complaint Portal ("Website", "Service", "we", "us", "our"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use this website.
+              By accessing or using Consumer Complaint Portal (&quot;Website&quot;, &quot;Service&quot;, &quot;we&quot;, &quot;us&quot;, &quot;our&quot;), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use this website.
             </p>
             <p className="text-gray-700 mb-4">
               इस वेबसाइट का उपयोग करके, आप इन शर्तों से सहमत होते हैं।
@@ -99,7 +102,7 @@ export default function TermsPage() {
           <section className="mb-8 bg-red-50 p-6 rounded-lg">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">7. Disclaimer of Warranties</h2>
             <p className="text-gray-700 mb-4">
-              THIS WEBSITE IS PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO:
+              THIS WEBSITE IS PROVIDED &quot;AS IS&quot; WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO:
             </p>
             <ul className="list-disc pl-6 space-y-2 text-gray-700">
               <li>Accuracy or completeness of information</li>

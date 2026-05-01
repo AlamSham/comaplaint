@@ -24,6 +24,16 @@ export function Header() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <Link
+              href="/complaint-helper"
+              className={`text-sm font-medium transition ${
+                isActive('/complaint-helper')
+                  ? 'text-blue-600'
+                  : 'text-gray-700 hover:text-blue-600'
+              }`}
+            >
+              Helper
+            </Link>
+            <Link
               href="/guides"
               className={`text-sm font-medium transition ${
                 isActive('/guides')
@@ -110,6 +120,17 @@ export function Header() {
         {mobileMenuOpen && (
           <div className="md:hidden pb-4">
             <div className="flex flex-col space-y-3">
+              <Link
+                href="/complaint-helper"
+                className={`px-3 py-2 rounded-md text-base font-medium ${
+                  isActive('/complaint-helper')
+                    ? 'bg-blue-50 text-blue-600'
+                    : 'text-gray-700 hover:bg-gray-50'
+                }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Helper
+              </Link>
               <Link
                 href="/guides"
                 className={`px-3 py-2 rounded-md text-base font-medium ${

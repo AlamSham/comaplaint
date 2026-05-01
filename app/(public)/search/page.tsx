@@ -1,5 +1,13 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
+import { absoluteUrl, createPageMetadata } from '@/lib/seo';
+
+export const metadata = createPageMetadata({
+  title: 'Search',
+  description: 'Search consumer complaint guides and complaint letter templates.',
+  path: '/search',
+  noIndex: true,
+});
 
 interface SearchResult {
   guides: Array<{
@@ -29,9 +37,11 @@ async function SearchResults({ query }: { query: string }) {
     );
   }
 
+  let data: SearchResult;
+
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/search?q=${encodeURIComponent(query)}`,
+      `${absoluteUrl('/api/search')}?q=${encodeURIComponent(query)}`,
       { cache: 'no-store' }
     );
 
@@ -39,108 +49,7 @@ async function SearchResults({ query }: { query: string }) {
       throw new Error('Search failed');
     }
 
-    const data: SearchResult = await res.json();
-    const totalResults = data.guides.length + data.templates.length;
-
-    if (totalResults === 0) {
-      return (
-        <div className="text-center py-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            No results found for "{query}"
-          </h2>
-          <p className="text-gray-600 mb-8">
-            Try different keywords or browse our categories
-          </p>
-          <div className="flex justify-center gap-4">
-            <Link
-              href="/guides"
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-            >
-              Browse Guides
-            </Link>
-            <Link
-              href="/templates"
-              className="px-6 py-3 bg-white text-blue-600 border-2 border-blue-600 rounded-lg hover:bg-blue-50 transition"
-            >
-              Browse Templates
-            </Link>
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div>
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
-            Search Results for "{query}"
-          </h2>
-          <p className="text-gray-600">
-            Found {totalResults} result{totalResults !== 1 ? 's' : ''}
-          </p>
-        </div>
-
-        {/* Guides Results */}
-        {data.guides.length > 0 && (
-          <div className="mb-12">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">
-              Guides ({data.guides.length})
-            </h3>
-            <div className="space-y-4">
-              {data.guides.map((guide) => (
-                <Link
-                  key={guide._id}
-                  href={`/guides/${guide.slug}`}
-                  className="block bg-white rounded-lg shadow-md hover:shadow-lg transition p-6"
-                >
-                  <div className="flex items-start justify-between mb-2">
-                    <h4 className="text-lg font-semibold text-gray-900">
-                      {guide.title}
-                    </h4>
-                    <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm ml-4 flex-shrink-0">
-                      {guide.category}
-                    </span>
-                  </div>
-                  <p className="text-gray-600 text-sm">
-                    {guide.excerpt}...
-                  </p>
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Templates Results */}
-        {data.templates.length > 0 && (
-          <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">
-              Templates ({data.templates.length})
-            </h3>
-            <div className="space-y-4">
-              {data.templates.map((template) => (
-                <Link
-                  key={template._id}
-                  href={`/templates/${template.slug}`}
-                  className="block bg-white rounded-lg shadow-md hover:shadow-lg transition p-6"
-                >
-                  <div className="flex items-start justify-between mb-2">
-                    <h4 className="text-lg font-semibold text-gray-900">
-                      {template.title}
-                    </h4>
-                    <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm ml-4 flex-shrink-0">
-                      {template.language}
-                    </span>
-                  </div>
-                  <p className="text-gray-600 text-sm">
-                    {template.excerpt}...
-                  </p>
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    );
+    data = await res.json();
   } catch (error) {
     console.error('Search error:', error);
     return (
@@ -160,6 +69,108 @@ async function SearchResults({ query }: { query: string }) {
       </div>
     );
   }
+
+  const totalResults = data.guides.length + data.templates.length;
+
+  if (totalResults === 0) {
+    return (
+      <div className="text-center py-12">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">
+          No results found for &quot;{query}&quot;
+        </h2>
+        <p className="text-gray-600 mb-8">
+          Try different keywords or browse our categories
+        </p>
+        <div className="flex justify-center gap-4">
+          <Link
+            href="/guides"
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          >
+            Browse Guides
+          </Link>
+          <Link
+            href="/templates"
+            className="px-6 py-3 bg-white text-blue-600 border-2 border-blue-600 rounded-lg hover:bg-blue-50 transition"
+          >
+            Browse Templates
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+          Search Results for &quot;{query}&quot;
+        </h2>
+        <p className="text-gray-600">
+          Found {totalResults} result{totalResults !== 1 ? 's' : ''}
+        </p>
+      </div>
+
+      {/* Guides Results */}
+      {data.guides.length > 0 && (
+        <div className="mb-12">
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">
+            Guides ({data.guides.length})
+          </h3>
+          <div className="space-y-4">
+            {data.guides.map((guide) => (
+              <Link
+                key={guide._id}
+                href={`/guides/${guide.slug}`}
+                className="block bg-white rounded-lg shadow-md hover:shadow-lg transition p-6"
+              >
+                <div className="flex items-start justify-between mb-2">
+                  <h4 className="text-lg font-semibold text-gray-900">
+                    {guide.title}
+                  </h4>
+                  <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm ml-4 flex-shrink-0">
+                    {guide.category}
+                  </span>
+                </div>
+                <p className="text-gray-600 text-sm">
+                  {guide.excerpt}...
+                </p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Templates Results */}
+      {data.templates.length > 0 && (
+        <div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">
+            Templates ({data.templates.length})
+          </h3>
+          <div className="space-y-4">
+            {data.templates.map((template) => (
+              <Link
+                key={template._id}
+                href={`/templates/${template.slug}`}
+                className="block bg-white rounded-lg shadow-md hover:shadow-lg transition p-6"
+              >
+                <div className="flex items-start justify-between mb-2">
+                  <h4 className="text-lg font-semibold text-gray-900">
+                    {template.title}
+                  </h4>
+                  <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm ml-4 flex-shrink-0">
+                    {template.language}
+                  </span>
+                </div>
+                <p className="text-gray-600 text-sm">
+                  {template.excerpt}...
+                </p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default async function SearchPage({

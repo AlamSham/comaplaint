@@ -21,6 +21,11 @@ export function Footer() {
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2 text-sm">
               <li>
+                <Link href="/complaint-helper" className="text-gray-400 hover:text-white transition">
+                  Draft Helper
+                </Link>
+              </li>
+              <li>
                 <Link href="/guides" className="text-gray-400 hover:text-white transition">
                   Guides
                 </Link>
@@ -79,7 +84,7 @@ export function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Get in Touch</h3>
             <p className="text-gray-400 text-sm mb-4">
-              Have questions or feedback? We'd love to hear from you.
+              Have questions or feedback? We would love to hear from you.
             </p>
             <Link 
               href="/contact" 
@@ -108,6 +113,8 @@ export function Footer() {
             <p>&copy; {new Date().getFullYear()} Consumer Complaint Portal. All rights reserved.</p>
             <p className="mt-3">
               <Link href="/about" className="hover:text-white transition">About</Link>
+              {' • '}
+              <Link href="/complaint-helper" className="hover:text-white transition">Draft Helper</Link>
               {' • '}
               <Link href="/contact" className="hover:text-white transition">Contact</Link>
               {' • '}

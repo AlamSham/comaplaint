@@ -2,9 +2,11 @@ import { MetadataRoute } from 'next';
 import { connectDB } from '@/lib/db/mongoose';
 import Guide from '@/lib/db/models/Guide';
 import Template from '@/lib/db/models/Template';
+import { getBaseUrl } from '@/lib/seo';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  const baseUrl = getBaseUrl();
+  const now = new Date();
 
   await connectDB();
 
@@ -18,33 +20,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .select('slug updatedAt')
     .lean();
 
-  // Static pages
   const staticPages: MetadataRoute.Sitemap = [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 1.0,
-    },
-    {
-      url: `${baseUrl}/guides`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/templates`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/portals`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    },
-  ];
+    { path: '', changeFrequency: 'daily' as const, priority: 1.0 },
+    { path: '/complaint-helper', changeFrequency: 'weekly' as const, priority: 0.95 },
+    { path: '/guides', changeFrequency: 'daily' as const, priority: 0.9 },
+    { path: '/templates', changeFrequency: 'daily' as const, priority: 0.9 },
+    { path: '/portals', changeFrequency: 'weekly' as const, priority: 0.8 },
+    { path: '/about', changeFrequency: 'monthly' as const, priority: 0.5 },
+    { path: '/contact', changeFrequency: 'monthly' as const, priority: 0.4 },
+    { path: '/legal-disclaimer', changeFrequency: 'yearly' as const, priority: 0.3 },
+    { path: '/terms', changeFrequency: 'yearly' as const, priority: 0.3 },
+    { path: '/privacy', changeFrequency: 'yearly' as const, priority: 0.3 },
+  ].map((page) => ({
+    url: `${baseUrl}${page.path}`,
+    lastModified: now,
+    changeFrequency: page.changeFrequency,
+    priority: page.priority,
+  }));
 
   // Guide pages
   const guidePages: MetadataRoute.Sitemap = guides.map((guide) => ({

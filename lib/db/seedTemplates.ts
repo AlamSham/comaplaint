@@ -942,6 +942,98 @@ Regards,
 {{your_email}}
 Date: {{date}}`,
   },
+  {
+    title: 'RC Transfer Complaint Letter - Hinglish',
+    language: 'hinglish',
+    content: `To,
+Regional Transport Office / Vehicle Dealer
+{{rto_or_dealer_address}}
+
+Subject: RC Transfer Delay Complaint - Vehicle {{vehicle_number}}
+
+Dear Sir/Madam,
+
+Main {{your_name}}, {{your_address}} se hoon. Maine {{sale_date}} ko vehicle number {{vehicle_number}} ka ownership transfer / RC transfer application submit kiya tha.
+
+Application Details:
+- Application / Receipt No.: {{application_number}}
+- Seller Name: {{seller_name}}
+- Buyer Name: {{buyer_name}}
+- RTO: {{rto_name}}
+- Fees Paid: Rs. {{fees_paid}}
+
+Issue:
+{{issue_description}}
+
+Maine {{followup_date}} ko follow-up kiya tha aur reference number {{complaint_ref}} mila tha, lekin abhi tak RC transfer complete nahi hua hai. Is delay ki wajah se challan, insurance, resale, and ownership record related risk create ho raha hai.
+
+Attached Documents:
+1. Form 29 and Form 30 copy
+2. Sale receipt / delivery note
+3. RC copy
+4. Insurance and PUC copy
+5. Payment receipt / application acknowledgement
+6. {{other_documents}}
+
+I request you to:
+1. Process the pending RC transfer immediately
+2. Share written status with reason for delay
+3. Correct ownership record on VAHAN / RTO system
+
+Please resolve this within {{resolution_days}} working days.
+
+Thank you,
+{{your_name}}
+{{your_phone}}
+{{your_email}}
+Date: {{date}}`,
+  },
+  {
+    title: 'Vehicle RC Transfer Delay Complaint - Hindi',
+    language: 'hindi',
+    content: `सेवा में,
+क्षेत्रीय परिवहन कार्यालय / वाहन डीलर
+{{rto_or_dealer_address}}
+
+विषय: वाहन {{vehicle_number}} के RC ट्रांसफर में देरी के संबंध में शिकायत
+
+महोदय/महोदया,
+
+मैं {{your_name}}, निवासी {{your_address}}, आपको सूचित करना चाहता/चाहती हूं कि मैंने दिनांक {{sale_date}} को वाहन संख्या {{vehicle_number}} के स्वामित्व हस्तांतरण / RC ट्रांसफर के लिए आवेदन किया था।
+
+आवेदन विवरण:
+1. आवेदन / रसीद संख्या: {{application_number}}
+2. विक्रेता का नाम: {{seller_name}}
+3. खरीदार का नाम: {{buyer_name}}
+4. RTO: {{rto_name}}
+5. जमा शुल्क: Rs. {{fees_paid}}
+
+शिकायत का विवरण:
+{{issue_description}}
+
+मैंने दिनांक {{followup_date}} को इस विषय में follow-up किया था और संदर्भ संख्या {{complaint_ref}} प्राप्त हुई थी, परंतु अभी तक RC ट्रांसफर पूरा नहीं हुआ है। इस देरी के कारण चालान, बीमा, resale और ownership record से जुड़ी समस्या हो सकती है।
+
+संलग्न दस्तावेज:
+1. Form 29 और Form 30 की प्रति
+2. Sale receipt / delivery note
+3. RC की प्रति
+4. Insurance और PUC की प्रति
+5. Payment receipt / application acknowledgement
+6. {{other_documents}}
+
+मेरा निवेदन है कि:
+1. लंबित RC transfer तुरंत पूरा किया जाए
+2. देरी का कारण लिखित रूप में बताया जाए
+3. VAHAN / RTO record में ownership detail सही की जाए
+
+कृपया {{resolution_days}} कार्य दिवसों के भीतर समाधान करें।
+
+धन्यवाद,
+{{your_name}}
+{{your_phone}}
+{{your_email}}
+दिनांक: {{date}}`,
+  },
 
   // Consumer Forum Template
   {

@@ -14,6 +14,7 @@
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
     "seed": "tsx lib/db/seed.ts",
+    "upsert:traffic-content": "tsx lib/db/upsertTrafficContent.ts",
     "db:reset": "tsx lib/db/reset.ts"
   },
   "dependencies": {

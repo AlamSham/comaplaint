@@ -1,9 +1,12 @@
 import Link from 'next/link';
+import { createPageMetadata } from '@/lib/seo';
 
-export const metadata = {
-  title: 'About Us - Consumer Complaint Portal | हमारे बारे में',
-  description: 'Learn about Consumer Complaint Portal - India\'s trusted platform for filing consumer complaints with step-by-step guides and templates.',
-};
+export const metadata = createPageMetadata({
+  title: 'About Us',
+  description:
+    'Learn about Consumer Complaint Portal, a free informational website with consumer complaint guides, templates, and official portal links for India.',
+  path: '/about',
+});
 
 export default function AboutPage() {
   return (

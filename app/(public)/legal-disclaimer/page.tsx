@@ -1,7 +1,11 @@
-export const metadata = {
-  title: 'Legal Disclaimer - Consumer Complaint Portal',
-  description: 'Important legal disclaimer and terms of use for Consumer Complaint Portal',
-};
+import { createPageMetadata } from '@/lib/seo';
+
+export const metadata = createPageMetadata({
+  title: 'Legal Disclaimer',
+  description:
+    'Important legal disclaimer for Consumer Complaint Portal. This website provides general information only and does not provide legal advice.',
+  path: '/legal-disclaimer',
+});
 
 export default function LegalDisclaimerPage() {
   return (
@@ -131,9 +135,9 @@ export default function LegalDisclaimerPage() {
           </section>
 
           <section className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">9. Information Provided "As Is"</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">9. Information Provided &quot;As Is&quot;</h2>
             <p className="text-gray-700 mb-4">
-              All information on this website is provided <strong>"AS IS"</strong> without any warranty of any kind, express or implied.
+              All information on this website is provided <strong>&quot;AS IS&quot;</strong> without any warranty of any kind, express or implied.
             </p>
             <p className="text-gray-700 mb-4">
               Laws and regulations change frequently. Information on this website may become outdated. Always verify current laws and procedures with official sources.

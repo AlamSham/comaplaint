@@ -58,6 +58,13 @@ const portalsData = [
     phone: '155255',
     isActive: true,
   },
+  {
+    name: 'VAHAN 4.0 Citizen Services',
+    category: 'govt',
+    url: 'https://vahan.parivahan.gov.in/vahanservice/vahan/ui/statevalidation/homepage.xhtml',
+    description: 'Official MoRTH portal for vehicle registration, RC services, and transfer of ownership services',
+    isActive: true,
+  },
 ];
 
 // Seed data for guides
@@ -234,6 +241,54 @@ const guidesData = [
     published: true,
   },
   {
+    title: 'RC Transfer Delay Complaint Guide',
+    category: 'govt',
+    language: 'hinglish',
+    content: `Vehicle sale ke baad RC transfer delay hona common problem hai. Agar buyer, seller, dealer, ya RTO side se transfer pending hai to written record banana important hai.
+
+**Common RC Transfer Issues:**
+- VAHAN application pending hai
+- Dealer ne documents submit nahi kiye
+- Buyer/seller OTP ya document verification pending hai
+- Form 29 / Form 30 mismatch hai
+- Fee paid hai lekin receipt/status update nahi hua
+- Old owner ke naam par challan ya notice aa raha hai
+
+**Important Documents:**
+- Vehicle registration number and RC copy
+- Form 29 and Form 30
+- Sale receipt, delivery note, or sale agreement
+- Insurance and PUC copy
+- Application number / payment receipt from VAHAN or RTO
+- Follow-up emails, WhatsApp chats, dealer receipts, or complaint references
+
+**Best Approach:**
+Pehle VAHAN/RTO application status check karein, phir dealer/buyer/seller ko written complaint bhejein. Agar issue unresolved rahe to RTO helpdesk/transport department grievance channel par complaint raise karein.`,
+    steps: [
+      'VAHAN citizen service portal par vehicle registration number se status check karein',
+      'Application number, receipt, fee payment, and pending reason note karein',
+      'Seller, buyer, dealer, ya agent ko written reminder bhejein',
+      'Form 29, Form 30, RC copy, insurance, PUC, address proof, and payment receipt ready rakhein',
+      'RTO office/helpdesk se written status maangein',
+      'Agar dealer delay kar raha hai to dealer ko legal notice style complaint bhejein',
+      'Transport department grievance portal ya state public grievance portal par complaint escalate karein',
+      'Agar financial loss, challan, or misuse ka risk ho to local legal advice lein',
+    ],
+    tags: [
+      'rc transfer',
+      'vehicle ownership transfer',
+      'rto complaint',
+      'vahan parivahan',
+      'form 29 form 30',
+      'vehicle transfer delay',
+    ],
+    metadata: {
+      title: 'RC Transfer Delay Complaint Guide | Vehicle Ownership Transfer',
+      description: 'RC transfer delay complaint guide: documents, VAHAN status, RTO escalation, and ready complaint format for vehicle ownership transfer.',
+    },
+    published: true,
+  },
+  {
     title: 'RERA Complaint - Property Dispute में शिकायत कैसे करें',
     category: 'rera',
     language: 'hinglish',
@@ -340,12 +395,12 @@ export async function seedDatabase() {
     // Drop old text indexes that might have language conflicts
     try {
       await Guide.collection.dropIndex('title_text_content_text_tags_text');
-    } catch (e) {
+    } catch {
       // Index might not exist, ignore
     }
     try {
       await Template.collection.dropIndex('title_text_content_text');
-    } catch (e) {
+    } catch {
       // Index might not exist, ignore
     }
     console.log('✅ Old indexes dropped');
@@ -361,29 +416,24 @@ export async function seedDatabase() {
 
     // Seed guides with portal references
     console.log('📖 Seeding guides...');
-    const guidesWithPortals = guidesData.map((guide, index) => {
+    const guidesWithPortals = guidesData.map((guide) => {
       // Assign relevant portals based on category
-      let relevantPortals: any[] = [];
-      
-      switch (guide.category) {
-        case 'ecommerce':
-          relevantPortals = portals.filter(p => p.category === 'govt');
-          break;
-        case 'banking':
-          relevantPortals = portals.filter(p => p.category === 'banking' || p.category === 'govt');
-          break;
-        case 'telecom':
-          relevantPortals = portals.filter(p => p.category === 'telecom' || p.category === 'govt');
-          break;
-        case 'rera':
-          relevantPortals = portals.filter(p => p.category === 'rera' || p.category === 'govt');
-          break;
-        case 'insurance':
-          relevantPortals = portals.filter(p => p.category === 'insurance' || p.category === 'govt');
-          break;
-        default:
-          relevantPortals = portals.filter(p => p.category === 'govt');
-      }
+      const relevantPortals = portals.filter((portal) => {
+        switch (guide.category) {
+          case 'ecommerce':
+            return portal.category === 'govt';
+          case 'banking':
+            return portal.category === 'banking' || portal.category === 'govt';
+          case 'telecom':
+            return portal.category === 'telecom' || portal.category === 'govt';
+          case 'rera':
+            return portal.category === 'rera' || portal.category === 'govt';
+          case 'insurance':
+            return portal.category === 'insurance' || portal.category === 'govt';
+          default:
+            return portal.category === 'govt';
+        }
+      });
 
       return {
         ...guide,
@@ -398,7 +448,7 @@ export async function seedDatabase() {
 
     // Seed templates with guide references
     console.log('📝 Seeding templates...');
-    const templatesWithGuides = templatesData.map((template, index) => {
+    const templatesWithGuides = templatesData.map((template) => {
       // Match template to relevant guide
       let guideRef;
       
@@ -410,6 +460,18 @@ export async function seedDatabase() {
         guideRef = guides.find(g => g.category === 'banking')?._id;
       } else if (template.title.includes('TRAI') || template.title.includes('Telecom')) {
         guideRef = guides.find(g => g.category === 'telecom')?._id;
+      } else if (template.title.includes('RERA')) {
+        guideRef = guides.find(g => g.category === 'rera')?._id;
+      } else if (template.title.includes('Insurance')) {
+        guideRef = guides.find(g => g.category === 'insurance')?._id;
+      } else if (
+        template.title.includes('Electricity') ||
+        template.title.includes('Ration') ||
+        template.title.includes('Water') ||
+        template.title.includes('RC Transfer') ||
+        template.title.includes('Vehicle RC')
+      ) {
+        guideRef = guides.find(g => g.category === 'govt')?._id;
       }
 
       return {
