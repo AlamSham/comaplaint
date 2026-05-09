@@ -7,6 +7,10 @@ export interface ITemplate extends Document {
   guideRef?: mongoose.Types.ObjectId; // Made optional
   language: typeof LANGUAGES[number];
   content: string;
+  metadata?: {
+    title: string;
+    description: string;
+  };
   downloadCount: number;
   createdAt: Date;
   updatedAt: Date;
@@ -42,6 +46,14 @@ const TemplateSchema = new Schema<ITemplate>(
     content: {
       type: String,
       required: [true, 'Content is required'],
+    },
+    metadata: {
+      title: {
+        type: String,
+      },
+      description: {
+        type: String,
+      },
     },
     downloadCount: {
       type: Number,
