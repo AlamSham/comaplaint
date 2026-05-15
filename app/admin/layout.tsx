@@ -13,14 +13,15 @@ export default function AdminLayout({
   const { data: session, status } = useSession();
   const router = useRouter();
   const pathname = usePathname();
+  const isLoginPage = pathname === '/admin/login';
 
   useEffect(() => {
-    if (status === 'unauthenticated' && pathname !== '/admin/login') {
+    if (status === 'unauthenticated' && !isLoginPage) {
       router.push('/admin/login');
     }
-  }, [status, router, pathname]);
+  }, [status, router, isLoginPage]);
 
-  if (pathname === '/admin/login') {
+  if (isLoginPage) {
     return <>{children}</>;
   }
 
