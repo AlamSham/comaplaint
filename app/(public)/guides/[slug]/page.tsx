@@ -10,11 +10,13 @@ import { CATEGORY_LABELS, LANGUAGE_LABELS, type Category, type Language } from '
 import { SocialShare } from '@/components/shared/SocialShare';
 import { Breadcrumbs } from '@/components/shared/Breadcrumbs';
 import { JsonLd } from '@/components/shared/JsonLd';
+import { ViewTracker } from '@/components/shared/ViewTracker';
 import { absoluteUrl, createPageMetadata } from '@/lib/seo';
 import {
   CATEGORY_DETAILS,
   getReadingMinutes,
 } from '@/lib/content/publicSections';
+import { CATEGORY_FAQS, createFaqJsonLd, createHowToJsonLd } from '@/lib/content/faqData';
 
 type PopulatedPortal = {
   _id: { toString(): string };
@@ -50,6 +52,32 @@ type RelatedTemplate = {
   title: string;
   slug: string;
   downloadCount: number;
+};
+
+type RelatedGuide = {
+  _id: { toString(): string };
+  title: string;
+  slug: string;
+  category: Category;
+  views: number;
+  metadata?: {
+    description?: string;
+  };
+};
+
+const SAMPLE_COMPLAINT_DRAFTS: Record<Category, string> = {
+  ecommerce:
+    'Subject: Complaint regarding order {{order_id}} - {{issue_type}}\n\nI purchased {{product_name}} for Rs. {{amount}} on {{order_date}}. The issue is {{brief_issue}}. I contacted support on {{first_complaint_date}} and received complaint/ticket number {{ticket_number}}, but the matter is still unresolved. I am attaching invoice, payment proof, photos/screenshots, and support chat records. Please provide {{refund_or_replacement_or_resolution}} and confirm the action in writing.',
+  banking:
+    'Subject: Banking complaint regarding {{transaction_or_account_issue}}\n\nI am customer {{your_name}} holding account/card ending {{last_digits}}. On {{date}}, an issue occurred: {{issue_details}}. The amount involved is Rs. {{amount}} and the reference number is {{reference_number}}. I complained to the bank on {{bank_complaint_date}} with reference {{bank_ticket_number}}, but the issue is unresolved/response is unsatisfactory. Please investigate and provide written resolution.',
+  telecom:
+    'Subject: Telecom complaint for {{mobile_or_customer_id}} - {{issue_type}}\n\nI am using {{operator_name}} connection/customer ID {{customer_id}}. Since {{date}}, I am facing {{issue_details}} at {{location}}. I raised complaint number {{docket_number}} on {{complaint_date}}, but the issue is not resolved. I am attaching bill/recharge proof, screenshots, speed test records, and support messages. Please resolve the issue and reverse incorrect charges if applicable.',
+  govt:
+    'Subject: Complaint regarding delay in {{service_name}} - application {{application_number}}\n\nI submitted {{service_name}} application on {{date}} with reference number {{application_number}}. The current status is {{current_status}} and the pending issue is {{pending_reason}}. I have attached receipt, payment proof, ID/documents, and previous follow-up records. Please update the status, complete the pending action, or provide a written reason for delay.',
+  rera:
+    'Subject: RERA complaint regarding {{project_name}} - {{flat_or_unit_number}}\n\nI booked unit {{unit_number}} in {{project_name}} by promoter {{builder_name}}. As per agreement, possession/refund/action was due on {{due_date}}, but {{issue_details}}. I have paid Rs. {{amount_paid}} and attached agreement, receipts, builder communication, project details, and proof of delay/defect. I request {{specific_relief}} with applicable compensation/interest as per law and authority directions.',
+  insurance:
+    'Subject: Insurance complaint regarding policy {{policy_number}} and claim {{claim_number}}\n\nI hold policy number {{policy_number}} with {{insurer_name}}. I submitted claim number {{claim_number}} for {{claim_reason}} on {{claim_date}}. The claim was rejected/delayed/partly settled citing {{rejection_reason}}. I believe this is incorrect because {{brief_explanation}}. I am attaching policy copy, premium receipts, claim documents, and insurer communication. Please reconsider and settle the claim with written reasons.',
 };
 
 export const revalidate = 86400; // 24 hours
@@ -90,11 +118,9 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
   
   const { slug } = await params;
   
-  // Increment view count
-  const guide = (await Guide.findOneAndUpdate(
-    { slug, published: true },
-    { $inc: { views: 1 } },
-    { returnDocument: 'after' }
+  // Read guide data without incrementing views (moved to client-side tracking)
+  const guide = (await Guide.findOne(
+    { slug, published: true }
   ).populate('portals').lean()) as unknown as GuideDetail | null;
 
   if (!guide) {
@@ -105,6 +131,17 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
   const templates = (await Template.find({ guideRef: guide._id })
     .select('title slug downloadCount')
     .lean()) as unknown as RelatedTemplate[];
+
+  // Get related guides from same category (for internal linking)
+  const relatedGuides = (await Guide.find({
+    published: true,
+    category: guide.category,
+    slug: { $ne: slug },
+  })
+    .select('title slug category views metadata.description')
+    .sort({ views: -1 })
+    .limit(3)
+    .lean()) as unknown as RelatedGuide[];
 
   // Structured data for SEO
   const guideUrl = absoluteUrl(`/guides/${guide.slug}`);
@@ -135,6 +172,20 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
     isAccessibleForFree: true,
   };
 
+  // HowTo schema for guide steps
+  const howToJsonLd = guide.steps && guide.steps.length > 0
+    ? createHowToJsonLd(
+        guide.title,
+        guide.metadata.description,
+        guide.steps,
+        guideUrl
+      )
+    : null;
+
+  // FAQ schema for rich snippets
+  const categoryFaqs = CATEGORY_FAQS[guide.category] || [];
+  const faqJsonLd = categoryFaqs.length > 0 ? createFaqJsonLd(categoryFaqs) : null;
+
   const breadcrumbs = [
     { name: 'Home', href: '/' },
     { name: 'Guides', href: '/guides' },
@@ -151,6 +202,9 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
   return (
     <div className="min-h-screen bg-gray-50">
       <JsonLd data={articleJsonLd} />
+      {howToJsonLd && <JsonLd data={howToJsonLd} />}
+      {faqJsonLd && <JsonLd data={faqJsonLd} />}
+      <ViewTracker slug={slug} type="guide" />
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <Breadcrumbs items={breadcrumbs} />
@@ -167,8 +221,10 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
                   ['process', 'Steps'],
                   ['documents', 'Documents'],
                   ['mistakes', 'Common mistakes'],
+                  ['sample-complaint', 'Sample draft'],
                   templates.length > 0 ? ['templates', 'Templates'] : null,
                   guide.portals && guide.portals.length > 0 ? ['portals', 'Official portals'] : null,
+                  categoryFaqs.length > 0 ? ['faq', 'FAQ'] : null,
                 ]
                   .filter(Boolean)
                   .map((item) => {
@@ -298,6 +354,15 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
                 </ol>
               </section>
 
+              <section id="sample-complaint" className="mt-8">
+                <h2 className="text-2xl font-bold text-gray-950 mb-4">Sample Complaint Draft</h2>
+                <div className="rounded-lg border border-stone-200 bg-stone-50 p-5">
+                  <pre className="whitespace-pre-wrap font-sans text-sm leading-7 text-gray-700">
+                    {SAMPLE_COMPLAINT_DRAFTS[guide.category]}
+                  </pre>
+                </div>
+              </section>
+
               {guide.tags && guide.tags.length > 0 && (
                 <section className="mt-8">
                   <h2 className="text-lg font-semibold text-gray-950 mb-3">Related Keywords</h2>
@@ -341,7 +406,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
             )}
 
             {guide.portals && guide.portals.length > 0 && (
-              <section id="portals" className="bg-white rounded-lg border border-stone-200 p-6 md:p-8">
+              <section id="portals" className="bg-white rounded-lg border border-stone-200 p-6 md:p-8 mb-8">
                 <h2 className="text-2xl font-bold text-gray-950 mb-2">
                   Official Complaint Portals
                 </h2>
@@ -372,6 +437,62 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
                         )}
                       </div>
                     </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* FAQ Section for Rich Snippets */}
+            {categoryFaqs.length > 0 && (
+              <section id="faq" className="bg-white rounded-lg border border-stone-200 p-6 md:p-8 mb-8">
+                <h2 className="text-2xl font-bold text-gray-950 mb-2">
+                  अक्सर पूछे जाने वाले सवाल (FAQ)
+                </h2>
+                <p className="text-gray-600 mb-5">
+                  Common questions about filing {CATEGORY_LABELS[guide.category]} complaints in India.
+                </p>
+                <div className="space-y-4">
+                  {categoryFaqs.map((faq, index) => (
+                    <details
+                      key={index}
+                      className="group rounded-lg border border-stone-200 bg-stone-50"
+                    >
+                      <summary className="cursor-pointer p-4 font-semibold text-gray-950 hover:text-emerald-700 transition">
+                        {faq.question}
+                      </summary>
+                      <div className="px-4 pb-4 text-sm leading-7 text-gray-700">
+                        {faq.answer}
+                      </div>
+                    </details>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* Related Guides - Internal Linking */}
+            {relatedGuides.length > 0 && (
+              <section className="bg-white rounded-lg border border-stone-200 p-6 md:p-8">
+                <h2 className="text-2xl font-bold text-gray-950 mb-2">
+                  Related Guides
+                </h2>
+                <p className="text-gray-600 mb-5">
+                  More {CATEGORY_LABELS[guide.category]} complaint guides you may find helpful.
+                </p>
+                <div className="grid md:grid-cols-3 gap-4">
+                  {relatedGuides.map((related) => (
+                    <Link
+                      key={related._id.toString()}
+                      href={`/guides/${related.slug}`}
+                      className="block p-4 border border-stone-200 rounded-lg hover:border-emerald-500 transition"
+                    >
+                      <h3 className="font-semibold text-gray-950 mb-2">{related.title}</h3>
+                      <p className="text-sm text-gray-600 line-clamp-2">
+                        {related.metadata?.description || `Step-by-step ${CATEGORY_LABELS[related.category]} complaint guide`}
+                      </p>
+                      <div className="mt-3 text-sm font-semibold text-emerald-700">
+                        Read guide →
+                      </div>
+                    </Link>
                   ))}
                 </div>
               </section>

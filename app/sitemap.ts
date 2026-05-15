@@ -12,7 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Fetch all published guides
   const guides = await Guide.find({ published: true })
-    .select('slug updatedAt')
+    .select('slug updatedAt category')
     .lean();
 
   // Fetch all templates
@@ -38,20 +38,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: page.priority,
   }));
 
-  // Guide pages
+  // Guide pages - higher priority since these are content pages
   const guidePages: MetadataRoute.Sitemap = guides.map((guide) => ({
     url: `${baseUrl}/guides/${guide.slug}`,
-    lastModified: guide.updatedAt || new Date(),
+    lastModified: guide.updatedAt || now,
     changeFrequency: 'weekly' as const,
-    priority: 0.7,
+    priority: 0.8,
   }));
 
-  // Template pages
+  // Template pages - these are high-value content pages
   const templatePages: MetadataRoute.Sitemap = templates.map((template) => ({
     url: `${baseUrl}/templates/${template.slug}`,
-    lastModified: template.updatedAt || new Date(),
+    lastModified: template.updatedAt || now,
     changeFrequency: 'monthly' as const,
-    priority: 0.6,
+    priority: 0.75,
   }));
 
   return [...staticPages, ...guidePages, ...templatePages];

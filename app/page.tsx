@@ -62,11 +62,23 @@ export default async function Home() {
     .limit(6)
     .lean()) as unknown as HomeGuide[];
 
+  // Fetch ALL guides for the complete index section (critical for indexing)
+  const allGuides = (await Guide.find({ published: true })
+    .select('title slug category')
+    .sort({ category: 1, views: -1 })
+    .lean()) as unknown as Array<{ _id: { toString(): string }; title: string; slug: string; category: Category }>;
+
   const topTemplates = (await Template.find()
     .select('title slug language content downloadCount')
     .sort({ downloadCount: -1 })
     .limit(4)
     .lean()) as unknown as HomeTemplate[];
+
+  // Fetch ALL templates for the complete index section
+  const allTemplates = (await Template.find()
+    .select('title slug language')
+    .sort({ language: 1 })
+    .lean()) as unknown as Array<{ _id: { toString(): string }; title: string; slug: string; language: Language }>;
 
   const categoryCounts = (await Guide.aggregate([
     { $match: { published: true } },
@@ -406,6 +418,62 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* Complete Guides Index - Every guide linked from homepage for indexing */}
+      {allGuides.length > 0 && (
+        <section className="bg-white py-14 border-t border-stone-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl font-bold text-gray-950 mb-2">
+              All Complaint Guides (सभी शिकायत गाइड)
+            </h2>
+            <p className="text-gray-600 mb-6">
+              Complete list of step-by-step complaint guides for Indian consumers.
+            </p>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+              {allGuides.map((guide) => (
+                <Link
+                  key={guide._id.toString()}
+                  href={`/guides/${guide.slug}`}
+                  className="flex items-center gap-3 p-3 rounded-lg border border-stone-200 hover:border-emerald-500 transition text-sm"
+                >
+                  <span className="flex-shrink-0 px-2 py-0.5 bg-emerald-50 text-emerald-800 rounded-full text-xs font-semibold">
+                    {CATEGORY_LABELS[guide.category]}
+                  </span>
+                  <span className="text-gray-950 font-medium truncate">{guide.title}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Complete Templates Index - Every template linked from homepage for indexing */}
+      {allTemplates.length > 0 && (
+        <section className="bg-stone-50 py-14 border-t border-stone-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl font-bold text-gray-950 mb-2">
+              All Complaint Templates (सभी शिकायत पत्र)
+            </h2>
+            <p className="text-gray-600 mb-6">
+              Ready-made complaint letter formats in Hindi, English, and Hinglish.
+            </p>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+              {allTemplates.map((template) => (
+                <Link
+                  key={template._id.toString()}
+                  href={`/templates/${template.slug}`}
+                  className="flex items-center gap-3 p-3 rounded-lg border border-stone-200 hover:border-emerald-500 transition text-sm"
+                >
+                  <span className="flex-shrink-0 px-2 py-0.5 bg-amber-50 text-amber-800 rounded-full text-xs font-semibold">
+                    {template.language}
+                  </span>
+                  <span className="text-gray-950 font-medium truncate">{template.title}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 }

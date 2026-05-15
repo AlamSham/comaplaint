@@ -10,7 +10,15 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin/', '/api/'],
+        disallow: [
+          '/admin/',
+          '/api/',
+          '/search',
+          '/search?*',
+          // Block filter URLs to prevent crawl budget waste
+          '/guides?*',
+          '/templates?*',
+        ],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,

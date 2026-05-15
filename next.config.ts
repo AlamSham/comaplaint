@@ -34,6 +34,22 @@ const nextConfig: NextConfig = {
   // Strict mode for better error catching
   reactStrictMode: true,
 
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'www.shikayatkaro.com',
+          },
+        ],
+        destination: 'https://shikayatkaro.com/:path*',
+        permanent: true,
+      },
+    ];
+  },
+
   // Security headers
   async headers() {
     return [
@@ -67,6 +83,25 @@ const nextConfig: NextConfig = {
           {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()',
+          },
+        ],
+      },
+      // Aggressive caching for static assets (fonts, images, CSS, JS)
+      {
+        source: '/_next/static/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/(.*)\\.(ico|svg|png|jpg|jpeg|gif|webp|avif)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, stale-while-revalidate=604800',
           },
         ],
       },

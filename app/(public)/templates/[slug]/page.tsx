@@ -9,6 +9,7 @@ import CopyButton from './CopyButton';
 import { SocialShare } from '@/components/shared/SocialShare';
 import { Breadcrumbs } from '@/components/shared/Breadcrumbs';
 import { JsonLd } from '@/components/shared/JsonLd';
+import { ViewTracker } from '@/components/shared/ViewTracker';
 import { absoluteUrl, createPageMetadata } from '@/lib/seo';
 import { getTemplatePlaceholders } from '@/lib/content/publicSections';
 
@@ -25,6 +26,10 @@ type TemplateDetail = {
   guideRef?: RelatedGuide | null;
   language: Language;
   content: string;
+  metadata?: {
+    title: string;
+    description: string;
+  };
   downloadCount: number;
   createdAt: Date;
   updatedAt: Date;
@@ -51,13 +56,25 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     return {};
   }
 
+  const languageLabel = template.language === 'hindi' ? 'Hindi' : template.language === 'english' ? 'English' : 'Hinglish';
+
+  const defaultTitle = `${template.title} - Free ${languageLabel} Format | शिकायत पत्र`;
+  const defaultDescription = `${template.title} - Free complaint letter sample in ${languageLabel}. Copy, customize with your details, and submit to the right authority. Ready-made format for Indian consumers. शिकायत पत्र फॉर्मेट।`;
+
   return createPageMetadata({
-    title: `${template.title} | Consumer Complaint Portal`,
-    description: `Download ${template.title} - Ready-made complaint template`,
+    title: template.metadata?.title || defaultTitle,
+    description: template.metadata?.description || defaultDescription,
     path: `/templates/${slug}`,
     type: 'article',
     titleAbsolute: true,
-    keywords: [template.title, `${template.title} format`, `${template.title} sample`],
+    keywords: [
+      template.title,
+      `${template.title} format`,
+      `${template.title} sample`,
+      `complaint letter ${languageLabel}`,
+      'शिकायत पत्र',
+      'complaint letter format India',
+    ],
     publishedTime: template.createdAt,
     modifiedTime: template.updatedAt,
   });
@@ -74,6 +91,22 @@ export default async function TemplatePage({ params }: { params: Promise<{ slug:
   if (!template) {
     notFound();
   }
+
+  // Get related templates for internal linking
+  const relatedTemplates = (await Template.find({
+    slug: { $ne: slug },
+    language: template.language,
+  })
+    .select('title slug language downloadCount')
+    .sort({ downloadCount: -1 })
+    .limit(4)
+    .lean()) as unknown as Array<{
+    _id: { toString(): string };
+    title: string;
+    slug: string;
+    language: Language;
+    downloadCount: number;
+  }>;
 
   const templateUrl = absoluteUrl(`/templates/${slug}`);
   const templateDescription = `Ready-made ${template.title} sample for Indian consumer complaints.`;
@@ -113,6 +146,7 @@ export default async function TemplatePage({ params }: { params: Promise<{ slug:
   return (
     <div className="min-h-screen bg-gray-50">
       <JsonLd data={creativeWorkJsonLd} />
+      <ViewTracker slug={slug} type="template" />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <Breadcrumbs items={breadcrumbs} />
 
@@ -231,7 +265,7 @@ export default async function TemplatePage({ params }: { params: Promise<{ slug:
             </section>
 
             {template.guideRef && (
-              <section className="bg-white rounded-lg border border-stone-200 p-6 md:p-8">
+              <section className="bg-white rounded-lg border border-stone-200 p-6 md:p-8 mb-6">
                 <h2 className="text-lg font-semibold text-gray-950 mb-3">
                   Related Guide
                 </h2>
@@ -246,6 +280,37 @@ export default async function TemplatePage({ params }: { params: Promise<{ slug:
                     View step-by-step complaint process →
                   </p>
                 </Link>
+              </section>
+            )}
+
+            {/* Related Templates - Internal Linking */}
+            {relatedTemplates.length > 0 && (
+              <section className="bg-white rounded-lg border border-stone-200 p-6 md:p-8">
+                <h2 className="text-xl font-bold text-gray-950 mb-2">
+                  More Complaint Templates
+                </h2>
+                <p className="text-gray-600 mb-5">
+                  Browse more ready-made complaint letter formats.
+                </p>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {relatedTemplates.map((related) => (
+                    <Link
+                      key={related._id.toString()}
+                      href={`/templates/${related.slug}`}
+                      className="block p-4 border border-stone-200 rounded-lg hover:border-emerald-500 transition"
+                    >
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="px-2 py-0.5 bg-amber-50 text-amber-800 rounded-full text-xs font-semibold">
+                          {LANGUAGE_LABELS[related.language]}
+                        </span>
+                        <span className="text-xs text-gray-500">
+                          {related.downloadCount} downloads
+                        </span>
+                      </div>
+                      <h3 className="font-semibold text-gray-950">{related.title}</h3>
+                    </Link>
+                  ))}
+                </div>
               </section>
             )}
           </main>

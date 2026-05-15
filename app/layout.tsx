@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Noto_Sans_Devanagari } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { Providers } from "@/components/shared/Providers";
 import { Header } from "@/components/shared/Header";
@@ -44,6 +45,11 @@ export const metadata: Metadata = {
   classification: "Consumer complaint guides and templates for India",
   alternates: {
     canonical: "/",
+    languages: {
+      'hi-IN': '/',
+      'en-IN': '/',
+      'x-default': '/',
+    },
   },
   openGraph: {
     title: SITE_CONFIG.title,
@@ -93,6 +99,23 @@ export default function RootLayout({
       className={`${inter.variable} ${notoSansDevanagari.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        {/* Google Analytics */}
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+              `}
+            </Script>
+          </>
+        )}
         <JsonLd data={createOrganizationJsonLd()} />
         <JsonLd data={createWebsiteJsonLd()} />
         <Providers>
