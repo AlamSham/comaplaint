@@ -122,34 +122,39 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 export default async function GuidePage({ params }: { params: Promise<{ slug: string }> }) {
-  await connectDB();
-  
+  let guide: GuideDetail | null = null;
+  let templates: RelatedTemplate[] = [];
+  let relatedGuides: RelatedGuide[] = [];
   const { slug } = await params;
-  
-  // Read guide data without incrementing views (moved to client-side tracking)
-  const guide = (await Guide.findOne(
-    { slug, published: true }
-  ).populate('portals').lean()) as unknown as GuideDetail | null;
+
+  try {
+    await connectDB();
+    guide = (await Guide.findOne({ slug, published: true })
+      .populate('portals')
+      .lean()) as unknown as GuideDetail | null;
+
+    if (guide) {
+      templates = (await Template.find({ guideRef: guide._id })
+        .select('title slug downloadCount')
+        .lean()) as unknown as RelatedTemplate[];
+
+      relatedGuides = (await Guide.find({
+        published: true,
+        category: guide.category,
+        slug: { $ne: slug },
+      })
+        .select('title slug category views metadata.description')
+        .sort({ views: -1 })
+        .limit(3)
+        .lean()) as unknown as RelatedGuide[];
+    }
+  } catch (error) {
+    console.warn('GuidePage DB error:', error);
+  }
 
   if (!guide) {
     notFound();
   }
-
-  // Get related templates
-  const templates = (await Template.find({ guideRef: guide._id })
-    .select('title slug downloadCount')
-    .lean()) as unknown as RelatedTemplate[];
-
-  // Get related guides from same category (for internal linking)
-  const relatedGuides = (await Guide.find({
-    published: true,
-    category: guide.category,
-    slug: { $ne: slug },
-  })
-    .select('title slug category views metadata.description')
-    .sort({ views: -1 })
-    .limit(3)
-    .lean()) as unknown as RelatedGuide[];
 
   // Structured data for SEO
   const guideUrl = absoluteUrl(`/guides/${guide.slug}`);
@@ -289,11 +294,26 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
                 ))}
               </div>
 
-              <div className="mb-7 border-y border-stone-200 py-5">
-                <SocialShare 
-                  title={guide.title} 
-                  url={guideUrl} 
-                />
+              {/* AI Search & SGE Executive Summary Card */}
+              <div className="rounded-lg border border-emerald-200 bg-emerald-50/90 p-5 mb-6">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-800 mb-2">
+                  <span className="inline-block h-2 w-2 rounded-full bg-emerald-600 animate-pulse" />
+                  Key Takeaways (AI & Search Overview)
+                </div>
+                <ul className="space-y-2 text-sm text-emerald-950 font-medium">
+                  <li className="flex items-start gap-2">
+                    <span className="text-emerald-700">✓</span>
+                    <span><strong>First Step:</strong> Raise formal written complaint with support/bank/company & collect reference ticket number.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-emerald-700">✓</span>
+                    <span><strong>Proof Needed:</strong> Invoices, payment transaction UTR, screenshots, emails, and timeline log.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-emerald-700">✓</span>
+                    <span><strong>Escalation Route:</strong> Escalate to NCH (1915), RBI Ombudsman, RERA, TRAI, or e-Daakhil Consumer Commission if unresolved.</span>
+                  </li>
+                </ul>
               </div>
 
               <section id="summary" className="mb-8 rounded-lg border border-emerald-200 bg-emerald-50 p-5">

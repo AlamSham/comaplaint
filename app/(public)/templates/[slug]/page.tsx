@@ -88,32 +88,39 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 export default async function TemplatePage({ params }: { params: Promise<{ slug: string }> }) {
-  await connectDB();
-  
-  const { slug } = await params;
-  const template = (await Template.findOne({ slug })
-    .populate('guideRef')
-    .lean()) as unknown as TemplateDetail | null;
-
-  if (!template) {
-    notFound();
-  }
-
-  // Get related templates for internal linking
-  const relatedTemplates = (await Template.find({
-    slug: { $ne: slug },
-    language: template.language,
-  })
-    .select('title slug language downloadCount')
-    .sort({ downloadCount: -1 })
-    .limit(4)
-    .lean()) as unknown as Array<{
+  let template: TemplateDetail | null = null;
+  let relatedTemplates: Array<{
     _id: { toString(): string };
     title: string;
     slug: string;
     language: Language;
     downloadCount: number;
-  }>;
+  }> = [];
+  const { slug } = await params;
+
+  try {
+    await connectDB();
+    template = (await Template.findOne({ slug })
+      .populate('guideRef')
+      .lean()) as unknown as TemplateDetail | null;
+
+    if (template) {
+      relatedTemplates = (await Template.find({
+        slug: { $ne: slug },
+        language: template.language,
+      })
+        .select('title slug language downloadCount')
+        .sort({ downloadCount: -1 })
+        .limit(4)
+        .lean()) as unknown as typeof relatedTemplates;
+    }
+  } catch (error) {
+    console.warn('TemplatePage DB error:', error);
+  }
+
+  if (!template) {
+    notFound();
+  }
 
   const templateUrl = absoluteUrl(`/templates/${slug}`);
   const templateDescription = `Ready-made ${template.title} sample for Indian consumer complaints.`;
@@ -143,6 +150,29 @@ export default async function TemplatePage({ params }: { params: Promise<{ slug:
       : {}),
   };
 
+  const templateFaqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: `How to use ${template.title}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `Copy the ${template.title} text, replace placeholder fields (such as your name, date, complaint/account number, and amount), attach supporting documents, and send to the relevant authority or company grievance cell.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `Is ${template.title} free to download and copy?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `Yes, all complaint letter formats on Consumer Complaint Portal are 100% free to copy, customize, and print for legal and consumer grievance filing in India.`,
+        },
+      },
+    ],
+  };
+
   const breadcrumbs = [
     { name: 'Home', href: '/' },
     { name: 'Templates', href: '/templates' },
@@ -153,6 +183,7 @@ export default async function TemplatePage({ params }: { params: Promise<{ slug:
   return (
     <div className="min-h-screen bg-gray-50">
       <JsonLd data={creativeWorkJsonLd} />
+      <JsonLd data={templateFaqJsonLd} />
       <ViewTracker slug={slug} type="template" />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <Breadcrumbs items={breadcrumbs} />
@@ -209,6 +240,28 @@ export default async function TemplatePage({ params }: { params: Promise<{ slug:
                   </p>
                 </div>
                 <CopyButton content={template.content} slug={slug} />
+              </div>
+
+              {/* AI Search & SGE Executive Summary Card */}
+              <div className="rounded-lg border border-emerald-200 bg-emerald-50/80 p-5 mb-6">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-800 mb-2">
+                  <span className="inline-block h-2 w-2 rounded-full bg-emerald-600 animate-pulse" />
+                  Quick Action Summary (AI & Search Overview)
+                </div>
+                <div className="grid md:grid-cols-3 gap-3 text-sm text-emerald-950">
+                  <div className="rounded bg-white/80 p-3 border border-emerald-100">
+                    <span className="font-semibold block text-emerald-900 mb-1">1. Customize Letter</span>
+                    Replace all <code className="text-xs bg-emerald-100 px-1 py-0.5 rounded">{`{{placeholders}}`}</code> with your actual details.
+                  </div>
+                  <div className="rounded bg-white/80 p-3 border border-emerald-100">
+                    <span className="font-semibold block text-emerald-900 mb-1">2. Attach Proof</span>
+                    Include bill invoice, transaction receipt, screenshots, or prior ticket numbers.
+                  </div>
+                  <div className="rounded bg-white/80 p-3 border border-emerald-100">
+                    <span className="font-semibold block text-emerald-900 mb-1">3. Official Submission</span>
+                    Send via Email/Registered Post & keep acknowledgment number for Consumer Court.
+                  </div>
+                </div>
               </div>
 
               <div className="border-y border-stone-200 py-5">
