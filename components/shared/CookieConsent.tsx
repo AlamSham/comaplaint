@@ -10,7 +10,7 @@ export function CookieConsent() {
     // Check if user has already accepted cookies
     const consent = localStorage.getItem('cookieConsent');
     if (!consent) {
-      setShowBanner(true);
+      queueMicrotask(() => setShowBanner(true));
     }
   }, []);
 

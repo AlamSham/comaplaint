@@ -17,7 +17,7 @@ export function AdSense({
 }: AdSenseProps) {
   useEffect(() => {
     try {
-      // @ts-ignore
+      // @ts-expect-error Window adsbygoogle global
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (error) {
       console.error('AdSense error:', error);
