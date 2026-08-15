@@ -83,34 +83,42 @@ const SAMPLE_COMPLAINT_DRAFTS: Record<Category, string> = {
 export const revalidate = 86400; // 24 hours
 
 export async function generateStaticParams() {
-  await connectDB();
-  const guides = await Guide.find({ published: true }).select('slug').lean();
-  
-  return guides.map((guide) => ({
-    slug: guide.slug,
-  }));
+  try {
+    await connectDB();
+    const guides = await Guide.find({ published: true }).select('slug').lean();
+    return guides.map((guide) => ({
+      slug: guide.slug,
+    }));
+  } catch (error) {
+    console.warn('generateStaticParams guides fallback:', error);
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  await connectDB();
-  
-  const { slug } = await params;
-  const guide = (await Guide.findOne({ slug, published: true }).lean()) as unknown as GuideDetail | null;
-  
-  if (!guide) {
+  try {
+    await connectDB();
+    const { slug } = await params;
+    const guide = (await Guide.findOne({ slug, published: true }).lean()) as unknown as GuideDetail | null;
+    
+    if (!guide) {
+      return {};
+    }
+
+    return createPageMetadata({
+      title: guide.metadata.title,
+      description: guide.metadata.description,
+      path: `/guides/${slug}`,
+      type: 'article',
+      titleAbsolute: true,
+      keywords: guide.tags || [],
+      publishedTime: guide.createdAt,
+      modifiedTime: guide.updatedAt,
+    });
+  } catch (error) {
+    console.warn('generateMetadata guides fallback:', error);
     return {};
   }
-
-  return createPageMetadata({
-    title: guide.metadata.title,
-    description: guide.metadata.description,
-    path: `/guides/${slug}`,
-    type: 'article',
-    titleAbsolute: true,
-    keywords: guide.tags || [],
-    publishedTime: guide.createdAt,
-    modifiedTime: guide.updatedAt,
-  });
 }
 
 export default async function GuidePage({ params }: { params: Promise<{ slug: string }> }) {

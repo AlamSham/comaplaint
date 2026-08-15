@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
 
-export const alt = 'Consumer Complaint Portal - शिकायत पोर्टल | Free consumer complaint guides and templates for India';
+export const alt = 'Consumer Complaint Portal | Free consumer complaint guides and templates for India';
 export const size = {
   width: 1200,
   height: 630,
@@ -44,11 +44,11 @@ export default async function Image() {
               color: '#064e3b',
             }}
           >
-            शि
+            SK
           </div>
           <div
             style={{
-              fontSize: '22px',
+              fontSize: '24px',
               fontWeight: 700,
               color: '#d1fae5',
               letterSpacing: '0.5px',
@@ -80,21 +80,21 @@ export default async function Image() {
           </div>
           <div
             style={{
-              fontSize: '40px',
+              fontSize: '32px',
               fontWeight: 700,
               color: '#a7f3d0',
               lineHeight: 1.3,
               marginBottom: '24px',
             }}
           >
-            उपभोक्ता शिकायत पोर्टल
+            India Legal & Resolution Platform
           </div>
           <div
             style={{
               fontSize: '22px',
               color: '#d1fae5',
               lineHeight: 1.6,
-              maxWidth: '800px',
+              maxWidth: '850px',
             }}
           >
             Free complaint guides, letter templates, and official portal links for Indian consumers
@@ -109,7 +109,7 @@ export default async function Image() {
             marginTop: '20px',
           }}
         >
-          {['Guides', 'Templates', 'Official Portals', 'Hindi + English'].map(
+          {['Complaint Guides', 'Letter Templates', 'Official Portals', 'Hindi & Hinglish'].map(
             (tag) => (
               <div
                 key={tag}

@@ -38,46 +38,53 @@ type TemplateDetail = {
 export const revalidate = 86400; // 24 hours
 
 export async function generateStaticParams() {
-  await connectDB();
-  const templates = await Template.find().select('slug').lean();
-  
-  return templates.map((template) => ({
-    slug: template.slug,
-  }));
+  try {
+    await connectDB();
+    const templates = await Template.find().select('slug').lean();
+    return templates.map((template) => ({
+      slug: template.slug,
+    }));
+  } catch (error) {
+    console.warn('generateStaticParams templates fallback:', error);
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  await connectDB();
-  
-  const { slug } = await params;
-  const template = (await Template.findOne({ slug }).lean()) as unknown as TemplateDetail | null;
-  
-  if (!template) {
+  try {
+    await connectDB();
+    const { slug } = await params;
+    const template = (await Template.findOne({ slug }).lean()) as unknown as TemplateDetail | null;
+    
+    if (!template) {
+      return {};
+    }
+
+    const languageLabel = template.language === 'hindi' ? 'Hindi' : template.language === 'english' ? 'English' : 'Hinglish';
+    const defaultTitle = `${template.title} - Free ${languageLabel} Format | शिकायत पत्र`;
+    const defaultDescription = `${template.title} - Free complaint letter sample in ${languageLabel}. Copy, customize with your details, and submit to the right authority. Ready-made format for Indian consumers. शिकायत पत्र फॉर्मेट।`;
+
+    return createPageMetadata({
+      title: template.metadata?.title || defaultTitle,
+      description: template.metadata?.description || defaultDescription,
+      path: `/templates/${slug}`,
+      type: 'article',
+      titleAbsolute: true,
+      keywords: [
+        template.title,
+        `${template.title} format`,
+        `${template.title} sample`,
+        `complaint letter ${languageLabel}`,
+        'शिकायत पत्र',
+        'complaint letter format India',
+      ],
+      publishedTime: template.createdAt,
+      modifiedTime: template.updatedAt,
+    });
+  } catch (error) {
+    console.warn('generateMetadata templates fallback:', error);
     return {};
   }
-
-  const languageLabel = template.language === 'hindi' ? 'Hindi' : template.language === 'english' ? 'English' : 'Hinglish';
-
-  const defaultTitle = `${template.title} - Free ${languageLabel} Format | शिकायत पत्र`;
-  const defaultDescription = `${template.title} - Free complaint letter sample in ${languageLabel}. Copy, customize with your details, and submit to the right authority. Ready-made format for Indian consumers. शिकायत पत्र फॉर्मेट।`;
-
-  return createPageMetadata({
-    title: template.metadata?.title || defaultTitle,
-    description: template.metadata?.description || defaultDescription,
-    path: `/templates/${slug}`,
-    type: 'article',
-    titleAbsolute: true,
-    keywords: [
-      template.title,
-      `${template.title} format`,
-      `${template.title} sample`,
-      `complaint letter ${languageLabel}`,
-      'शिकायत पत्र',
-      'complaint letter format India',
-    ],
-    publishedTime: template.createdAt,
-    modifiedTime: template.updatedAt,
-  });
 }
 
 export default async function TemplatePage({ params }: { params: Promise<{ slug: string }> }) {

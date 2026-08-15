@@ -376,6 +376,187 @@ Pehle VAHAN/RTO application status check karein, phir dealer/buyer/seller ko wri
     },
     published: true,
   },
+  {
+    title: 'Meesho Refund & Return Complaint Guide',
+    category: 'ecommerce',
+    language: 'hinglish',
+    content: `Meesho App par shopping ke waqt agar return approve nahi ho raha, damaged/wrong product mila hai ya bank account me refund credit nahi hua, to ye guide aapko complete step-by-step resolution batayegi.
+
+**Common Meesho Issues:**
+- Wrong/damaged product delivered by seller
+- Return request rejected by courier/reseller
+- Pickup agent marked "customer unavailable" wrongly
+- Refund status showing "credited" but bank account me paise nahi aaye
+- Fraudulent or empty box delivery
+
+**Required Documents:**
+- Meesho Order ID & invoice
+- Product photos, outer box with shipping label, unboxing video
+- Bank statement / UPI UTR screenshot showing payment or missing refund
+- Meesho Chat/Email support reference number
+
+**Action Plan:**
+Pehle Meesho App -> Help Center se ticket raise karein. Agar 48 hours me resolution na mile to official email support (query@meesho.com) par proof bhejein. Iske baad bhi unresolved rahe to National Consumer Helpline (NCH) par escalate karein.`,
+    steps: [
+      'Meesho App open karke Account -> Help Center -> Select Order par jayein',
+      'Problem type select karein (Return/Refund issue, Wrong item, Payment failure)',
+      'Sub-category me "Call Back Request" raise karein ya complaint description bharein',
+      'Shipping label aur unboxing video/photos attach karein',
+      'Customer support se Complaint Docket Number prapt karein',
+      'Agar 3 din tak status resolve na ho to query@meesho.com par email bhejein',
+      'Bank statement check karke RRN/UTR status bank se verify karein',
+      'Unresolved hone par National Consumer Helpline (1915 या consumerhelpline.gov.in) par complain register karein',
+    ],
+    tags: ['meesho', 'meesho refund', 'meesho return', 'ecommerce', 'online shopping', 'meesho customer care'],
+    metadata: {
+      title: 'Meesho Refund & Return Complaint Guide | मीशो शिकायत कैसे करें',
+      description: 'Meesho return request reject hone par ya refund na milne par complaint kaise karein - Complete Hindi/Hinglish guide with email formats.',
+    },
+    published: true,
+  },
+  {
+    title: 'UPI Failed Transaction & Money Deducted Guide',
+    category: 'banking',
+    language: 'hinglish',
+    content: `GPay, PhonePe, Paytm, BHIM ya Bank UPI app se payment karte waqt agar khate se paise kat gaye lekin merchant/receiver ko nahi mile, to ye NPCI aur RBI guidelines ke mutabiq aapka right hai ki 48-72 ghante me paise wapas aayein.
+
+**Common UPI Disputes:**
+- Account debited but transaction failed at merchant
+- Money debited but beneficiary account not credited
+- Pending transaction status for more than 48 hours
+- Wrong UPI ID transaction
+- Auto-debit / Mandate wrongfully executed
+
+**Required Proof:**
+- UPI Transaction ID, UTR (Unique Transaction Reference) / RRN number
+- Bank account statement showing debit line item
+- Merchant order failure screenshot
+- GPay / PhonePe / Paytm transaction status history
+
+**RBI & NPCI Rules:**
+NPCI auto-reversal guideline T+1 day ki hoti hai. Agar bank 5 din (T+5 days) ke andar refund nahi karta, to bank ko per day ₹100 penalty pay karni padti hai.`,
+    steps: [
+      'UPI App (GPay/PhonePe/Paytm) history me jakar "Raise Dispute" ya "Report Issue" par click karein',
+      'Transaction UTR / RRN (12 digit number) Note kar lein',
+      'Apne bank ke NetBanking/Mobile App se Official UPI Dispute lodge karein',
+      'Bank Customer Care number par call karke Complaint Docket Number lein',
+      '48-72 hours tak auto-reversal wait karein',
+      'Agar resolve na ho to NPCI Dispute Redressal Mechanism (npci.org.in) portal par complaint lodge karein',
+      '30 din tak resolution na milne par RBI Banking Ombudsman (cms.rbi.org.in) par complain submit karein',
+    ],
+    tags: ['upi dispute', 'gpay failed payment', 'phonepe refund', 'paytm transaction pending', 'rbi ombudsman', 'bank refund'],
+    metadata: {
+      title: 'UPI Failed Transaction & Money Deducted Guide | GPay PhonePe Dispute',
+      description: 'UPI transaction fail hone par paise kat gaye to refund kaise lein - GPay, PhonePe, Paytm, NPCI aur RBI Ombudsman escalation step-by-step guide.',
+    },
+    published: true,
+  },
+  {
+    title: 'Cyber Fraud & Online Scam Urgent Police & Bank Complaint Guide',
+    category: 'banking',
+    language: 'hinglish',
+    content: `Agar aapke sath OTP scam, Credit/Debit card fraud, APK file malware fraud, ya unauthorized bank debit hua hai, to shuruaati 2-3 ghante (Golden Hours) sabse critical होते हैं।
+
+**Emergency Steps Immediate (Golden Hours):**
+1. Immediately call **1930** (National Cyber Crime Helpline)
+2. Apne Bank ko call karke Account, Debit/Credit Card aur NetBanking तुरंत Block (Freeze) karwayein.
+3. Cyber Crime Portal (cybercrime.gov.in) par online complaint file karein.
+
+**Required Proof:**
+- Bank Statement / SMS proof showing fraudulent debit
+- Fraudster mobile number, WhatsApp chat, phishing link, or APK file details
+- Bank complaint ticket number & FIR / Cyber Complaint ACK number
+
+**RBI Zero Liability Policy:**
+RBI Circular ke according agar aap 3 dino ke andar bank ko unauthorized electronic transaction ki soochna de dete hain, to aapki Zero Liability hoti hai aur bank ko poora amount refund karna hota hai.`,
+    steps: [
+      'Call 1930 National Cyber Crime Helpline immediately and report transaction UTR',
+      'Bank customer care (24x7 helpline) ko call karke account block karwayein',
+      'Cyber Crime Portal (cybercrime.gov.in) par visit karke "Report Financial Fraud" form bharein',
+      'Bank Branch me jakar written complaint submit karein aur Zero Liability claim form submit karein',
+      'Local police station me FIR / NC copy file karke acknowledgement lein',
+      'Bank ko official email send karein with Cyber Complaint Ack & Police FIR',
+      'Agar bank 90 days me refund na kare to RBI Ombudsman par escalate karein',
+    ],
+    tags: ['cyber crime 1930', 'online fraud complaint', 'bank fraud refund', 'rbi zero liability', 'otp scam complaint'],
+    metadata: {
+      title: 'Cyber Fraud & Online Scam Urgent Bank Complaint Guide | 1930 Helpline',
+      description: 'Online fraud hone par bank account freeze aur paise refund karwane ka emergency process - 1930 helpline, cybercrime.gov.in aur RBI Zero Liability guide.',
+    },
+    published: true,
+  },
+  {
+    title: 'Passport Status & Police Verification Delay Complaint Guide',
+    category: 'govt',
+    language: 'hinglish',
+    content: `Passport Seva Kendra (PSK) me appointment aur document submission ke baad agar Police Verification pending hai, Regional Passport Office (RPO) se file stuck hai ya "Passport Under Review" aa raha hai, to ye guide aapko fast resolution me madad karegi.
+
+**Common Passport Delays:**
+- Police Verification Report (PVR) pending at local police station/SP office
+- Adverse Police Verification Report due to minor address/name mismatch
+- File pending at Regional Passport Office (RPO) for clarification
+- Certificate/Mark sheet verification delay
+
+**Required Documents:**
+- Passport Application Reference Number (ARN) & Payment receipt
+- Police verification acknowledgement slip
+- Proof of present & permanent address documents
+- RPO Appointment slip / Escalation emails
+
+**Action Plan:**
+Pehle Passport Seva portal par status track karein. Agar Police Verification 15 din se jyada pending hai, to Local SP/CP office ke Public Grievance cell me visit karein ya mPassport Seva / CPGRAMS portal par complaint register karein.`,
+    steps: [
+      'Passport Seva Portal (passportindia.gov.in) par ARN number se status check karein',
+      'PVR status check karein ki file Thana (Local station) par hai ya SP office me',
+      'Local Police Station ke passport officer se milkar verification status janke clear karwayein',
+      'Agar RPO level par pending hai to Passport Seva Portal par "Enquiry Appointment" book karein',
+      'Regional Passport Officer ko written grievance letter bhejein with ARN proof',
+      'CPGRAMS (pgportal.gov.in) par Ministry of External Affairs ke under public grievance lodge karein',
+      'Twitter/X par @PassportSevaOfficial ko tag karke ARN aur RPO location ke sath tweet karein',
+    ],
+    tags: ['passport complaint', 'police verification delay', 'passport status pending', 'rpo appointment', 'cpgrams passport'],
+    metadata: {
+      title: 'Passport Status & Police Verification Delay Complaint Guide | PSK RPO',
+      description: 'Passport banne me delay, police verification pending ya RPO status stuck hone par complaint kaise karein - Complete CPGRAMS & RPO escalation process.',
+    },
+    published: true,
+  },
+  {
+    title: 'Swiggy & Zomato Food Order Dispute Guide',
+    category: 'ecommerce',
+    language: 'hinglish',
+    content: `Swiggy ya Zomato se food order karte waqt agar khana kharab/stale mila, missing items the, delivery bohot late hui, ya app chatbot ne refund dene se mana kar diya, to ye legal guidelines aur escalation path aapke liye hai.
+
+**Common Issues:**
+- Missing food items from delivered order
+- Spilled / spoiled / cold / stale food delivered
+- Driver delivered to wrong address or marked delivered without giving food
+- Chatbot automated denial of refund
+
+**Required Proof:**
+- Order ID, bill invoice receipt
+- Photos of damaged/wrong food package, unboxing video
+- Chatbot conversation screenshots showing denial
+- Payment debit proof (UPI/Card/Wallet)
+
+**Resolution Process:**
+App Chat support automated bots aksar refund deny kar dete hain. Uske baad Grievance Officer email ID (Zomato: grievance@zomato.com / Swiggy: grievance@swiggy.in) par proof bhejkar formal complaint lodge ki ja sakti hai.`,
+    steps: [
+      'Swiggy / Zomato App me Order History -> Help -> Report Issue par click karein',
+      'Food Item photos upload karke automated chat bot me clear description dalein',
+      'Agar Bot refund refuse kare to "Connect to Live Agent" request karein',
+      'Live Agent Chat ka screenshot lein aur Complaint ID save karein',
+      'Zomato/Swiggy ke official Grievance Officer email ID par full proof bhejkar email karein',
+      'Social media (Twitter/X) par @SwiggyCares ya @ZomatoCare ko Order ID ke sath tag karein',
+      'Unresolved rehne par NCH (National Consumer Helpline App / 1915) par complaint raise karein',
+    ],
+    tags: ['swiggy complaint', 'zomato refund', 'food order complaint', 'swiggy customer care', 'zomato grievance'],
+    metadata: {
+      title: 'Swiggy & Zomato Food Order Dispute Guide | Zomato Refund Complaint',
+      description: 'Swiggy aur Zomato me khana kharab milne, missing item ya refund deny hone par complaint kaise karein - Grievance Officer & NCH escalation process.',
+    },
+    published: true,
+  },
 ];
 
 type SeedGuide = (typeof guidesData)[number];

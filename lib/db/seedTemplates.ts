@@ -1539,5 +1539,130 @@ Date: {{date}}`,
       title: 'Medical Negligence Legal Notice to Hospital | Consumer Court Draft',
       description: 'Free English legal notice format for medical negligence, wrong treatment, or deficiency in service by doctors and hospitals.',
     }
+  },
+
+  // High-Traffic Extended Templates
+  {
+    title: 'UPI Transaction Failed Money Deducted Complaint - Hinglish',
+    language: 'hinglish',
+    content: `To,
+The Nodal Officer / Branch Manager
+{{bank_name}}
+{{bank_branch_address}}
+
+Subject: UPI Transaction Failed Money Deducted Complaint - UTR {{utr_number}}
+
+Dear Sir/Madam,
+
+Main {{your_name}}, Account Number {{account_number}} ka account holder hoon.
+
+Date {{transaction_date}} ko maine UPI app ({{upi_app_name}}) ke dwara ₹{{amount}} ki payment attempt ki thi. Transaction status "FAILED / PENDING" aaya tha, lekin mere account se paise debit ho gaye aur merchant/receiver ko credit nahi hue.
+
+Transaction Details:
+- Transaction UTR / RRN: {{utr_number}}
+- Date & Time: {{transaction_date_time}}
+- Amount Debited: ₹{{amount}}
+- Receiver UPI ID / Merchant: {{receiver_upi_id}}
+
+NPCI guidelines (T+1 day auto-reversal) aur RBI guidelines ke mutabiq 48 hours ke andar refund credit hona chahiye tha, lekin {{days_passed}} din beetne ke baad bhi paise mere account me wapas nahi aaye hain.
+
+Request:
+1. Immediately credit ₹{{amount}} back to my bank account.
+2. Per day ₹100 penalty compensation credited if delayed beyond RBI timeline.
+
+Attached:
+1. Bank Account Statement
+2. UPI App Transaction Details Screenshot
+
+Thanks,
+{{your_name}}
+{{your_phone}}
+{{your_email}}
+Date: {{date}}`,
+    metadata: {
+      title: 'UPI Transaction Failed Money Deducted Complaint - Hinglish Format',
+      description: 'Free UPI failed transaction money deducted complaint format in Hinglish for bank dispute & RBI Ombudsman.',
+    }
+  },
+  {
+    title: 'Cyber Fraud Emergency Bank Account Freeze Request - Hindi',
+    language: 'hindi',
+    content: `सेवा में,
+शाखा प्रबंधक / साइबर सुरक्षा प्रकोष्ठ
+{{bank_name}}
+{{branch_address}}
+
+विषय: आपातकालीन साइबर फ्रॉड की सूचना और खाता फ्रीज/रिफंड हेतु आवेदन - खाता {{account_number}}
+
+महोदय/महोदया,
+
+मैं {{your_name}}, खाता संख्या {{account_number}} का धारक हूं।
+
+दिनांक {{fraud_date}} को समय {{fraud_time}} बजे मेरे साथ ऑनलाइन धोखाधड़ी/साइबर फ्रॉड हुआ है, जिसके तहत अनधिकृत रूप से मेरे खाते से ₹{{amount}} की राशि निकाल ली गई है।
+
+फ्रॉड का विवरण:
+- अनधिकृत कटौती राशि: ₹{{amount}}
+- लेन-देन यूटीआर/संदर्भ संख्या: {{utr_number}}
+- 1930 राष्ट्रीय साइबर हेल्प लाइन शिकायत संख्या: {{cyber_1930_ack}}
+
+आपातकालीन मांगें:
+1. धोखाधड़ी वाले लेन-देन को तुरंत ब्लॉक/रिवर्स किया जाए।
+2. मेरे खाते, डेबिट कार्ड और नेट बैंकिंग को सुरक्षा हेतु तुरंत अस्थायी रूप से ब्लॉक किया जाए।
+3. आरबीआई के शून्य दायित्व (Zero Liability Policy) दिशानिर्देशों के तहत संपूर्ण राशि मेरे खाते में पुनः जमा की जाए।
+
+संलग्नक:
+1. बैंक खाता विवरण / SMS स्क्रीनशॉट
+2. 1930 राष्ट्रीय साइबर क्राइम पोर्टल पावती प्रति
+
+धन्यवाद,
+{{your_name}}
+{{your_address}}
+{{your_phone}}
+{{your_email}}
+दिनांक: {{date}}`,
+    metadata: {
+      title: 'Cyber Fraud Emergency Bank Account Freeze Request - Hindi Format',
+      description: 'Free Cyber fraud bank complaint letter in Hindi for account freeze and Zero Liability refund claim.',
+    }
+  },
+  {
+    title: 'Passport Police Verification Delay Grievance Letter - English',
+    language: 'english',
+    content: `To,
+The Regional Passport Officer (RPO)
+Regional Passport Office
+{{rpo_location}}
+
+Subject: Delay in Passport Processing & Police Verification - ARN {{arn_number}}
+
+Dear Sir/Madam,
+
+I, {{your_name}}, resident of {{your_address}}, applied for Passport under Application Reference Number (ARN) {{arn_number}} on {{application_date}} at {{psk_location}} Passport Seva Kendra.
+
+Issue Details:
+My documents were successfully verified at PSK on {{psk_date}}. However, the status has been stuck at "{{current_status}}" for the past {{days_delayed}} days. 
+
+Police Verification Details:
+- Police Station: {{police_station_name}}
+- Verification Status: {{police_verification_status}}
+
+I have already visited the local police station and provided all address & identity proofs. Despite multiple follow-ups, there has been no update from the RPO office.
+
+I request you to kindly check the file status and expedite the police verification report clearance and passport dispatch at the earliest.
+
+Attached:
+1. Passport ARN Receipt
+2. Address & Identity Proof copies
+3. Police Verification Acknowledgement
+
+Regards,
+{{your_name}}
+{{your_phone}}
+{{your_email}}
+Date: {{date}}`,
+    metadata: {
+      title: 'Passport Police Verification Delay Grievance Letter - English Format',
+      description: 'Free Passport delay and Police Verification grievance letter format for RPO and CPGRAMS portal.',
+    }
   }
 ];

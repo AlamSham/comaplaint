@@ -3,7 +3,17 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 
-type IssueKey = 'ecommerce' | 'banking' | 'telecom' | 'rera' | 'insurance' | 'govt' | 'rcTransfer';
+type IssueKey =
+  | 'ecommerce'
+  | 'banking'
+  | 'telecom'
+  | 'rera'
+  | 'insurance'
+  | 'govt'
+  | 'rcTransfer'
+  | 'upiDispute'
+  | 'cyberFraud'
+  | 'meeshoRefund';
 type DraftLanguage = 'hinglish' | 'hindi' | 'english';
 
 type IssueConfig = {
@@ -16,6 +26,30 @@ type IssueConfig = {
 };
 
 const ISSUE_CONFIG: Record<IssueKey, IssueConfig> = {
+  upiDispute: {
+    label: 'UPI payment failed & money debited',
+    authority: 'Bank Nodal Officer / NPCI / RBI Ombudsman',
+    guideHref: '/guides/upi-failed-transaction-money-deducted-guide',
+    templateHref: '/templates/upi-transaction-failed-money-deducted-complaint-hinglish',
+    proof: ['UPI UTR / RRN (12 digit number)', 'Bank statement showing debit', 'GPay/PhonePe/Paytm failed transaction screenshot', 'Merchant order failure proof'],
+    route: ['Raise dispute in UPI app & copy UTR number', 'Submit official UPI dispute on Bank App/NetBanking', 'Escalate to NPCI or RBI Ombudsman if unresolved after 48-72 hrs'],
+  },
+  cyberFraud: {
+    label: 'Online cyber fraud / OTP scam (Emergency)',
+    authority: '1930 Cyber Crime Helpline / Bank Fraud Cell',
+    guideHref: '/guides/cyber-fraud-online-scam-urgent-police-bank-complaint-guide',
+    templateHref: '/templates/cyber-fraud-emergency-bank-account-freeze-request-hindi',
+    proof: ['Bank statement / Debit SMS screenshot', '1930 Cyber Helpline complaint ACK number', 'Fraudster phone number / WhatsApp chat / Phishing link', 'Police FIR copy'],
+    route: ['Call 1930 helpline immediately', 'Contact Bank 24x7 helpline to FREEZE account/card', 'File complaint on cybercrime.gov.in & submit Zero Liability claim with bank'],
+  },
+  meeshoRefund: {
+    label: 'Meesho return rejected / refund pending',
+    authority: 'Meesho Support / Customer Grievance Cell',
+    guideHref: '/guides/meesho-refund-return-complaint-guide',
+    templateHref: '/templates/meesho-refund-not-received-hindi',
+    proof: ['Meesho Order ID and Invoice', 'Unboxing video & damaged/wrong product photos', 'Shipping label outer box photo', 'Bank statement showing missing refund'],
+    route: ['Raise ticket or Call Back Request in Meesho Help Center', 'Email full proof to query@meesho.com', 'Escalate to National Consumer Helpline (1915) if ignored'],
+  },
   ecommerce: {
     label: 'Shopping refund / delivery issue',
     authority: 'Customer Support / Seller Grievance Team',
