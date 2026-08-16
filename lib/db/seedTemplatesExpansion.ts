@@ -2587,4 +2587,383 @@ Date: {{date}}`,
       description: 'Free RERA delayed possession complaint in English. Section 31 RERA Act 2016. Builder delay, refund with interest. Ready format for State RERA authority.',
     }
   },
+
+  // ═══════════════════════════════════════════════
+  // MISSING TEMPLATES FROM PLAN (7 new)
+  // ═══════════════════════════════════════════════
+
+  {
+    title: 'Railway Complaint to Station Master - English',
+    language: 'english',
+    content: `To,
+The Station Master / Station Superintendent
+{{station_name}} Railway Station
+{{railway_zone}} Zone
+
+Subject: Complaint Regarding {{complaint_type}} - Train No. {{train_number}}
+
+Dear Sir/Madam,
+
+I, {{your_name}}, a passenger on Train No. {{train_number}} ({{train_name}}), PNR {{pnr_number}}, am filing a formal complaint regarding the following issue at {{station_name}} Railway Station:
+
+Journey Details:
+- PNR: {{pnr_number}}
+- Train: {{train_number}} - {{train_name}}
+- Date of Journey: {{journey_date}}
+- Coach/Berth: {{coach_berth}}
+- From: {{from_station}} → To: {{to_station}}
+
+Complaint Details:
+{{complaint_details}}
+
+(Examples: Dirty coach/toilets, no water supply, AC not working, rude staff behavior, overcharging by vendor, unauthorized person in reserved berth, platform cleanliness, broken amenities, safety concern)
+
+I request:
+1. Immediate action on the reported issue
+2. Written acknowledgment of this complaint
+3. Follow-up action report
+
+I am also filing this complaint on:
+- RailMadad App/Website (railmadad.indianrailways.gov.in)
+- Railway Helpline: 139
+
+Regards,
+{{your_name}}
+{{your_phone}}
+{{your_email}}
+Date: {{date}}`,
+    metadata: {
+      title: 'Railway Station Master Complaint English 2026 | Train Complaint Letter Format',
+      description: 'Free railway complaint letter to Station Master in English. Dirty coach, AC failure, staff behavior, platform issues. Ready format for RailMadad and station submission.',
+    }
+  },
+
+  {
+    title: 'EPF Transfer Delay Complaint - English',
+    language: 'english',
+    content: `To,
+The Regional Provident Fund Commissioner
+EPFO Regional Office
+{{epfo_office_address}}
+
+Subject: Delay in EPF Transfer/Consolidation - UAN {{uan_number}}
+
+Dear Sir/Madam,
+
+I, {{your_name}}, UAN {{uan_number}}, am writing to complain about the excessive delay in my EPF transfer/consolidation request.
+
+Transfer Details:
+- UAN: {{uan_number}}
+- Previous Member ID: {{old_member_id}} (Employer: {{old_employer}})
+- Current Member ID: {{new_member_id}} (Employer: {{current_employer}})
+- Transfer Claim Submitted: {{claim_date}}
+- Transfer Claim ID: {{claim_id}}
+- Current Status: {{current_status}}
+- Days Elapsed: {{days_passed}}
+
+The standard processing time for EPF transfer is 20 working days. However, my claim has been pending for {{days_passed}} days without any resolution.
+
+Previous attempts to resolve:
+1. EPFO Grievance Portal (epfigms.gov.in): Ref {{grievance_ref}}
+2. EPFO Helpline (1800-118-005): Called on {{helpline_date}}
+3. Visited EPFO office on {{visit_date}}: {{visit_outcome}}
+
+I request:
+1. Immediate processing and completion of my EPF transfer
+2. Written confirmation with timeline
+3. Reason for the delay
+
+If not resolved within 15 days, I will escalate to CPGRAMS (pgportal.gov.in) and the Central Provident Fund Commissioner.
+
+Regards,
+{{your_name}}
+{{your_phone}}
+{{your_email}}
+Aadhaar: {{aadhaar_last_4}}XXXX
+Date: {{date}}`,
+    metadata: {
+      title: 'EPF Transfer Delay Complaint English 2026 | PF Consolidation Pending Letter',
+      description: 'Free EPF transfer delay complaint in English for EPFO Regional Office. PF consolidation pending, old employer not approving. Ready format with CPGRAMS escalation.',
+    }
+  },
+
+  {
+    title: 'Ujjwala Yojana Complaint Letter - Hindi',
+    language: 'hindi',
+    content: `सेवा में,
+जिला खाद्य एवं आपूर्ति अधिकारी / नोडल अधिकारी
+{{district_office_name}}
+{{district_address}}
+
+प्रतिलिपि: {{oil_company}} (IOCL/BPCL/HPCL)
+
+विषय: प्रधानमंत्री उज्ज्वला योजना (PMUY) के अंतर्गत शिकायत
+
+महोदय/महोदया,
+
+मैं {{your_name}}, निवासी {{your_address}}, ग्राम {{village}}, तहसील {{tehsil}}, ज़िला {{district}}, प्रधानमंत्री उज्ज्वला योजना की लाभार्थी हूं।
+
+PMUY विवरण:
+- LPG उपभोक्ता संख्या: {{consumer_number}}
+- गैस एजेंसी: {{agency_name}}
+- BPL/SECC राशन कार्ड नंबर: {{ration_card_number}}
+- PMUY कनेक्शन दिनांक: {{connection_date}}
+- आधार संख्या: {{aadhaar_number}}
+- बैंक खाता: {{bank_name}}, खाता {{account_number}}
+
+शिकायत:
+{{complaint_details}}
+
+(उदा: पहला रिफिल फ्री नहीं मिला, सब्सिडी बैंक खाते में नहीं आ रही, डीलर अतिरिक्त पैसे मांग रहा, सिलेंडर डिलीवरी नहीं हो रही, डीलर बुकिंग नहीं ले रहा, कनेक्शन आवेदन अस्वीकृत किया गया)
+
+मांग:
+1. {{demand_1}}
+2. {{demand_2}}
+
+पहले की गई कार्यवाही:
+- LPG Helpline (1906) पर शिकायत: {{helpline_ref}}
+- MoPNG e-Seva portal: {{portal_ref}}
+
+कृपया 15 दिनों में कार्यवाही करें, अन्यथा MoPNG / CPGRAMS पर शिकायत करूंगी।
+
+{{your_name}}
+{{your_phone}}
+ग्राम: {{village}}, तहसील: {{tehsil}}
+दिनांक: {{date}}`,
+    metadata: {
+      title: 'Ujjwala Yojana Complaint Hindi 2026 | उज्ज्वला योजना शिकायत पत्र',
+      description: 'Free Ujjwala Yojana complaint letter in Hindi. Subsidy not received, free refill denied, dealer overcharging. Ready format for district office and MoPNG.',
+    }
+  },
+
+  {
+    title: 'Death Certificate Correction Application - English',
+    language: 'english',
+    content: `To,
+The Sub-Registrar (Births & Deaths) / Municipal Commissioner
+{{municipal_office_name}}
+{{office_address}}
+
+Subject: Correction in Death Certificate - Registration No. {{registration_number}}
+
+Dear Sir/Madam,
+
+I, {{your_name}}, {{relationship}} of the deceased, am writing to request correction in the Death Certificate issued for:
+
+Deceased Person Details:
+- Name of Deceased: {{deceased_name}}
+- Date of Death: {{date_of_death}}
+- Place of Death: {{place_of_death}} (Hospital: {{hospital_name}})
+- Death Registration No: {{registration_number}}
+- Certificate Issue Date: {{certificate_date}}
+
+Error in Certificate:
+- Field with error: {{error_field}} (e.g., Name/Date/Address/Cause of Death)
+- Currently printed as: {{wrong_value}}
+- Correct information should be: {{correct_value}}
+
+Reason for Correction:
+{{correction_reason}}
+
+Supporting Documents Attached:
+1. Original Death Certificate (with error highlighted)
+2. {{proof_document_1}} (e.g., Aadhaar Card of deceased showing correct name)
+3. {{proof_document_2}} (e.g., Hospital death summary with correct details)
+4. {{proof_document_3}} (e.g., Affidavit for correction)
+5. Applicant's ID proof ({{applicant_id_type}})
+
+Fee: ₹{{fee_paid}} paid via {{payment_mode}} (Receipt No: {{receipt_number}})
+
+I request issuance of a corrected Death Certificate at the earliest.
+
+Regards,
+{{your_name}}
+{{your_address}}
+{{your_phone}}
+{{your_email}}
+Date: {{date}}`,
+    metadata: {
+      title: 'Death Certificate Correction Application English 2026 | Error Correction Format',
+      description: 'Free death certificate correction application in English. Name error, date of death wrong, cause of death correction. Ready format for Sub-Registrar office.',
+    }
+  },
+
+  {
+    title: 'FASTag KYC Issue Complaint - English',
+    language: 'english',
+    content: `To,
+Customer Care / FASTag Department
+{{fastag_issuer_bank}}
+{{bank_address}}
+
+Copy to: NHAI (National Highways Authority of India)
+
+Subject: FASTag KYC Rejection / Update Issue - FASTag ID {{fastag_id}}
+
+Dear Sir/Madam,
+
+I, {{your_name}}, am the owner of vehicle {{vehicle_number}} with FASTag ID {{fastag_id}} issued by {{fastag_issuer_bank}}.
+
+Issue:
+My FASTag has been deactivated/blacklisted due to KYC non-compliance, despite my repeated attempts to complete the KYC process.
+
+FASTag Details:
+- FASTag ID: {{fastag_id}}
+- Vehicle Number: {{vehicle_number}}
+- Vehicle Class: {{vehicle_class}}
+- Issuer Bank: {{fastag_issuer_bank}}
+- Wallet Balance: ₹{{wallet_balance}}
+- Current Status: {{current_status}} (Blacklisted/Inactive/KYC Pending)
+
+KYC Attempts:
+1. Date: {{attempt_1_date}} - Mode: {{attempt_1_mode}} (Online/Branch) - Result: {{attempt_1_result}}
+2. Date: {{attempt_2_date}} - Mode: {{attempt_2_mode}} - Result: {{attempt_2_result}}
+3. KYC Rejection Reason (if given): {{rejection_reason}}
+
+Documents Submitted:
+1. Vehicle RC copy
+2. Owner's PAN Card
+3. Aadhaar Card
+4. Passport size photo
+5. Vehicle photo with FASTag sticker
+
+I request:
+1. Immediate completion of FASTag KYC and reactivation
+2. If KYC documents are insufficient, clear written communication on what additional documents are needed
+3. Refund of toll charges paid in cash during FASTag blacklist period: ₹{{cash_toll_paid}}
+
+NHAI Helpline 1033 complaint: Ref {{nhai_ref}}
+
+Regards,
+{{your_name}}
+{{your_phone}}
+{{your_email}}
+Date: {{date}}`,
+    metadata: {
+      title: 'FASTag KYC Complaint English 2026 | FASTag Blacklisted KYC Issue Letter',
+      description: 'Free FASTag KYC complaint letter in English. FASTag blacklisted, KYC rejected, reactivation request. Ready format for issuer bank and NHAI.',
+    }
+  },
+
+  {
+    title: 'DTDC Missing Courier Complaint - Hindi',
+    language: 'hindi',
+    content: `सेवा में,
+ग्राहक सेवा विभाग
+DTDC Express Limited
+{{dtdc_address}}
+Email: customer.service@dtdc.com
+
+विषय: कूरियर गुम होने की शिकायत - Consignment No. {{tracking_number}}
+
+महोदय/महोदया,
+
+मैं {{your_name}}, {{your_address}} का/की निवासी, DTDC Express द्वारा भेजे गए अपने कूरियर के गुम होने की शिकायत दर्ज करना चाहता/चाहती हूं।
+
+शिपमेंट विवरण:
+- Consignment/AWB Number: {{tracking_number}}
+- बुकिंग दिनांक: {{booking_date}}
+- बुकिंग स्थान: {{origin_city}}
+- गंतव्य: {{destination_city}}
+- प्रेषक: {{sender_name}}
+- प्राप्तकर्ता: {{receiver_name}}
+- सामग्री: {{parcel_contents}}
+- घोषित मूल्य: ₹{{declared_value}}
+- वज़न: {{weight}} kg
+- सेवा प्रकार: {{service_type}} (Priority/Economy/Lite)
+
+अंतिम Tracking Status:
+- स्थिति: {{last_status}}
+- दिनांक: {{last_update_date}}
+- स्थान: {{last_location}}
+
+{{days_no_update}} दिनों से कोई tracking update नहीं आया है। कूरियर न तो डिलीवर हुआ है न ही वापस आया है।
+
+मैंने DTDC customer care {{complaint_date}} को कॉल किया (Ref: {{complaint_ref}}) लेकिन कोई समाधान नहीं मिला।
+
+मांग:
+1. तत्काल जांच और कूरियर का पता लगाना
+2. कूरियर गुम होने पर ₹{{declared_value}} (घोषित मूल्य) का पूर्ण मुआवज़ा
+3. शिपिंग शुल्क ₹{{shipping_charge}} की वापसी
+
+कृपया 10 दिनों में कार्यवाही करें, अन्यथा NCH (1915) और Consumer Court में शिकायत करूंगा/करूंगी।
+
+{{your_name}}
+{{your_phone}}
+{{your_email}}
+दिनांक: {{date}}`,
+    metadata: {
+      title: 'DTDC Missing Courier Complaint Hindi 2026 | डीटीडीसी कूरियर शिकायत पत्र',
+      description: 'Free DTDC missing courier complaint in Hindi. Parcel lost, no tracking update. Ready format for DTDC customer service and consumer court.',
+    }
+  },
+
+  {
+    title: 'Motor Accident Insurance Claim Letter - English',
+    language: 'english',
+    content: `To,
+Claims Department / Motor Claims Manager
+{{insurance_company}}
+{{company_address}}
+
+Subject: Motor Accident Insurance Claim - Policy {{policy_number}}
+
+Dear Sir/Madam,
+
+I, {{your_name}}, policyholder of Motor Insurance Policy No. {{policy_number}}, am filing a claim for damages sustained in a motor vehicle accident.
+
+Policy Details:
+- Policy Number: {{policy_number}}
+- Policy Type: {{policy_type}} (Comprehensive/Third Party)
+- Vehicle: {{vehicle_make_model}} ({{vehicle_year}})
+- Registration: {{vehicle_number}}
+- Engine No: {{engine_number}}
+- Chassis No: {{chassis_number}}
+- Policy Period: {{policy_start}} to {{policy_end}}
+- IDV (Insured Declared Value): ₹{{idv}}
+
+Accident Details:
+- Date & Time: {{accident_date}} at {{accident_time}}
+- Location: {{accident_location}}
+- Description: {{accident_description}}
+- Weather/Road Conditions: {{conditions}}
+- Other Vehicle Involved: {{other_vehicle}} (if applicable)
+- Injuries: {{injury_details}} (if any)
+
+FIR / Police Report:
+- FIR Number: {{fir_number}}
+- Police Station: {{police_station}}
+- FIR Date: {{fir_date}}
+
+Damage Assessment:
+- Estimated Repair Cost: ₹{{repair_estimate}}
+- Surveyor Visit Requested: Yes
+- Vehicle Current Location: {{vehicle_location}} (Garage: {{garage_name}})
+
+Documents Attached:
+1. Policy document copy
+2. Driving License of driver at time of accident
+3. Vehicle Registration Certificate (RC)
+4. FIR copy
+5. Photographs of accident scene and vehicle damage
+6. Repair estimate from authorized garage
+7. Medical reports (if injuries involved)
+
+I request:
+1. Appointment of surveyor at the earliest
+2. Cashless repair at network garage / Reimbursement of repair costs
+3. Towing charges reimbursement: ₹{{towing_charges}}
+
+Claim intimation already done via helpline: Ref {{claim_intimation_ref}} on {{intimation_date}}.
+
+Regards,
+{{your_name}}
+{{your_phone}}
+{{your_email}}
+Date: {{date}}`,
+    metadata: {
+      title: 'Motor Accident Insurance Claim English 2026 | Vehicle Accident Claim Letter',
+      description: 'Free motor accident insurance claim letter in English. Car/bike accident claim, FIR, surveyor, cashless repair. Ready format for comprehensive and third party policy.',
+    }
+  },
 ];

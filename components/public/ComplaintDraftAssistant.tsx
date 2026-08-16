@@ -13,7 +13,15 @@ type IssueKey =
   | 'rcTransfer'
   | 'upiDispute'
   | 'cyberFraud'
-  | 'meeshoRefund';
+  | 'meeshoRefund'
+  | 'irctcRefund'
+  | 'cibilDispute'
+  | 'lpgGas'
+  | 'incomeTaxRefund'
+  | 'airlinesComplaint'
+  | 'fastagIssue'
+  | 'courierLost'
+  | 'rtiApplication';
 type DraftLanguage = 'hinglish' | 'hindi' | 'english';
 
 type IssueConfig = {
@@ -97,6 +105,70 @@ const ISSUE_CONFIG: Record<IssueKey, IssueConfig> = {
     templateHref: '/templates',
     proof: ['Application number', 'Payment receipt', 'Department acknowledgement', 'Previous follow-up proof'],
     route: ['Check official application status', 'Send written complaint to department', 'Escalate through state or central grievance channel'],
+  },
+  irctcRefund: {
+    label: 'IRCTC / Railway ticket refund (रेलवे रिफंड)',
+    authority: 'Station Master / Chief Commercial Manager / RailMadad',
+    guideHref: '/guides/irctc-train-ticket-refund-railway-complaint-guide',
+    templateHref: '/templates/irctc-train-ticket-refund-application-hindi',
+    proof: ['PNR number and e-ticket', 'Payment receipt / bank statement', 'Train cancel / delay proof', 'RailMadad complaint reference'],
+    route: ['File TDR on IRCTC website/app', 'Complain on RailMadad (railmadad.indianrailways.gov.in)', 'Escalate to Railway Helpline 139 or Consumer Court'],
+  },
+  cibilDispute: {
+    label: 'CIBIL score wrong / dispute (सिबिल स्कोर)',
+    authority: 'TransUnion CIBIL / Bank Nodal Officer',
+    guideHref: '/guides/cibil-score-dispute-correction-guide',
+    templateHref: '/templates/cibil-score-correction-application-hindi',
+    proof: ['CIBIL report (error highlighted)', 'Loan closure NOC from bank', 'Bank statement showing timely payments', 'PAN Card copy'],
+    route: ['Raise dispute on CIBIL website', 'Send written complaint to bank to update CIBIL', 'Escalate to RBI Ombudsman if bank doesn\'t respond in 30 days'],
+  },
+  lpgGas: {
+    label: 'LPG gas cylinder complaint (गैस सिलेंडर)',
+    authority: 'Gas Agency / Oil Company (IOCL/BPCL/HPCL)',
+    guideHref: '/guides/lpg-gas-cylinder-complaint-guide',
+    templateHref: '/templates/lpg-gas-cylinder-complaint-letter-hindi',
+    proof: ['LPG consumer number', 'Booking reference / IVRS receipt', 'Payment proof', 'Cylinder weight check proof (if under-weight)'],
+    route: ['Complain to gas agency dealer', 'Call oil company helpline (Indane: 1800-2333-555)', 'Escalate to MoPNG e-Seva portal (mopng.gov.in)'],
+  },
+  incomeTaxRefund: {
+    label: 'Income Tax refund delay (इनकम टैक्स रिफंड)',
+    authority: 'CPC Bengaluru / CBDT / CPGRAMS',
+    guideHref: '/guides/income-tax-refund-delay-complaint-guide',
+    templateHref: '/templates/income-tax-refund-delay-complaint-to-cpgrams-hindi',
+    proof: ['PAN number', 'ITR acknowledgment number', 'e-Filing portal refund status screenshot', 'Bank account pre-validation proof'],
+    route: ['Check refund status on e-Filing portal', 'File e-Nivaran grievance on incometax.gov.in', 'Escalate to CPGRAMS (pgportal.gov.in) for CBDT action'],
+  },
+  airlinesComplaint: {
+    label: 'Airlines / flight cancel complaint (फ्लाइट शिकायत)',
+    authority: 'Airline Customer Care / DGCA AirSewa',
+    guideHref: '/guides/airlines-flight-cancel-refund-complaint-dgca-guide',
+    templateHref: '/templates/dgca-airlines-complaint-application-english',
+    proof: ['PNR and booking confirmation', 'Boarding pass (if applicable)', 'Flight delay/cancel notification', 'Additional expense receipts (hotel, food, transport)'],
+    route: ['Complain to airline customer care first', 'If no response in 15 days, file on AirSewa (airsewa.gov.in)', 'DGCA compensation rules apply for airline-caused cancellations'],
+  },
+  fastagIssue: {
+    label: 'FASTag double deduction / KYC issue (फास्टैग)',
+    authority: 'FASTag Issuer Bank / NHAI',
+    guideHref: '/guides/fastag-complaint-guide',
+    templateHref: '/templates/fastag-double-deduction-complaint-hindi',
+    proof: ['FASTag ID and vehicle number', 'Transaction history from My FASTag app', 'Toll plaza name, date, and time', 'Bank statement showing deductions'],
+    route: ['Call FASTag issuer bank customer care', 'File complaint on NHAI Helpline 1033', 'Written complaint to bank for refund within 7 days'],
+  },
+  courierLost: {
+    label: 'Courier / parcel lost complaint (कूरियर शिकायत)',
+    authority: 'Courier Company / Postmaster / Consumer Court',
+    guideHref: '/guides/courier-lost-parcel-complaint-guide-bluedart-dtdc-delhivery',
+    templateHref: '/templates/bluedart-lost-parcel-complaint-english',
+    proof: ['AWB / Tracking number', 'Booking receipt', 'Declared value proof', 'Tracking status screenshot showing no update'],
+    route: ['Contact courier customer care with tracking number', 'Send written complaint demanding compensation', 'If no response, file NCH (1915) and consumer court complaint'],
+  },
+  rtiApplication: {
+    label: 'RTI application filing (सूचना का अधिकार)',
+    authority: 'CPIO / State Public Information Officer',
+    guideHref: '/guides/rti-filing-guide',
+    templateHref: '/templates/rti-application-format-hindi',
+    proof: ['₹10 postal order or online fee receipt', 'RTI application copy', 'Department name and address', 'Previous RTI responses (if appeal)'],
+    route: ['File online on rtionline.gov.in or send by post', 'Wait 30 days for CPIO response', 'If no response, file First Appeal to Appellate Authority within 30 days'],
   },
   rcTransfer: {
     label: 'RC transfer delay',
