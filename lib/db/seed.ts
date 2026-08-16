@@ -7,6 +7,8 @@ import Template from './models/Template';
 import Portal from './models/Portal';
 import { slugify } from '../utils/slugify';
 import { templatesData } from './seedTemplates';
+import { expansionGuidesData } from './seedGuidesExpansion';
+import { expansionTemplatesData } from './seedTemplatesExpansion';
 
 // Seed data for portals
 const portalsData = [
@@ -63,6 +65,29 @@ const portalsData = [
     category: 'govt',
     url: 'https://vahan.parivahan.gov.in/vahanservice/vahan/ui/statevalidation/homepage.xhtml',
     description: 'Official MoRTH portal for vehicle registration, RC services, and transfer of ownership services',
+    isActive: true,
+  },
+  {
+    name: 'CPGRAMS (Central Public Grievance)',
+    category: 'govt',
+    url: 'https://pgportal.gov.in',
+    description: 'Centralized Public Grievance Redress and Monitoring System for all central government departments',
+    isActive: true,
+  },
+  {
+    name: 'Cyber Crime Portal',
+    category: 'govt',
+    url: 'https://cybercrime.gov.in',
+    description: 'National Cyber Crime Reporting Portal for reporting online financial fraud, cyber crimes, and digital threats',
+    phone: '1930',
+    isActive: true,
+  },
+  {
+    name: 'DGCA AirSewa',
+    category: 'govt',
+    url: 'https://airsewa.gov.in',
+    description: 'Directorate General of Civil Aviation portal for airline passenger complaints and grievances',
+    phone: '1800-114-000',
     isActive: true,
   },
 ];
@@ -781,8 +806,10 @@ export async function seedDatabase() {
     console.log(`✅ Seeded ${portals.length} portals`);
 
     // Seed guides with portal references
-    console.log('📖 Seeding guides...');
-    const guidesWithPortals = guidesData.map((guide) => {
+    // Merge original + expansion guides
+    const allGuidesData = [...guidesData, ...expansionGuidesData];
+    console.log(`📖 Seeding ${allGuidesData.length} guides (${guidesData.length} original + ${expansionGuidesData.length} expansion)...`);
+    const guidesWithPortals = allGuidesData.map((guide) => {
       // Assign relevant portals based on category
       const relevantPortals = portals.filter((portal) => {
         switch (guide.category) {
@@ -814,31 +841,75 @@ export async function seedDatabase() {
     console.log(`✅ Seeded ${guides.length} guides`);
 
     // Seed templates with guide references
-    console.log('📝 Seeding templates...');
-    const templatesWithGuides = templatesData.map((template) => {
+    // Merge original + expansion templates
+    const allTemplatesData = [...templatesData, ...expansionTemplatesData];
+    console.log(`📝 Seeding ${allTemplatesData.length} templates (${templatesData.length} original + ${expansionTemplatesData.length} expansion)...`);
+    const templatesWithGuides = allTemplatesData.map((template) => {
       // Match template to relevant guide
       let guideRef;
       
-      if (template.title.includes('Amazon')) {
-        guideRef = guides.find(g => g.title.includes('Amazon'))?._id;
-      } else if (template.title.includes('Flipkart')) {
-        guideRef = guides.find(g => g.title.includes('Flipkart'))?._id;
-      } else if (template.title.includes('Bank') || template.title.includes('RBI')) {
-        guideRef = guides.find(g => g.category === 'banking')?._id;
-      } else if (template.title.includes('TRAI') || template.title.includes('Telecom')) {
-        guideRef = guides.find(g => g.category === 'telecom')?._id;
-      } else if (template.title.includes('RERA')) {
-        guideRef = guides.find(g => g.category === 'rera')?._id;
-      } else if (template.title.includes('Insurance')) {
-        guideRef = guides.find(g => g.category === 'insurance')?._id;
-      } else if (
-        template.title.includes('Electricity') ||
-        template.title.includes('Ration') ||
-        template.title.includes('Water') ||
-        template.title.includes('RC Transfer') ||
-        template.title.includes('Vehicle RC')
-      ) {
-        guideRef = guides.find(g => g.category === 'govt')?._id;
+      // Match template to relevant guide by keyword
+      const titleLower = template.title.toLowerCase();
+      const matchKeywords: [string[], (g: typeof guides[0]) => boolean][] = [
+        [['amazon'], g => g.title.includes('Amazon')],
+        [['flipkart'], g => g.title.includes('Flipkart')],
+        [['myntra'], g => g.title.includes('Myntra') || g.title.includes('Ajio')],
+        [['meesho'], g => g.title.includes('Meesho')],
+        [['swiggy'], g => g.title.includes('Swiggy')],
+        [['zomato'], g => g.title.includes('Zomato') || g.title.includes('Swiggy')],
+        [['jiomart'], g => g.title.includes('JioMart')],
+        [['ajio'], g => g.title.includes('Ajio')],
+        [['nykaa'], g => g.title.includes('Nykaa')],
+        [['bigbasket', 'blinkit'], g => g.title.includes('BigBasket')],
+        [['olx', 'quikr'], g => g.title.includes('OLX')],
+        [['pharmeasy', 'netmeds', '1mg'], g => g.title.includes('PharmEasy')],
+        [['cred'], g => g.title.includes('CRED')],
+        [['boat', 'warranty', 'noise', 'samsung'], g => g.title.includes('Warranty')],
+        [['cibil', 'credit score'], g => g.title.includes('CIBIL')],
+        [['recovery agent', 'loan recovery'], g => g.title.includes('Recovery Agent')],
+        [['cheque bounce', 'check bounce'], g => g.title.includes('Cheque Bounce')],
+        [['nbfc', 'bajaj finance'], g => g.title.includes('NBFC')],
+        [['gold loan'], g => g.title.includes('Gold Loan')],
+        [['sebi', 'mutual fund', 'stock broker', 'demat'], g => g.title.includes('Mutual Fund') || g.title.includes('SEBI')],
+        [['fd ', 'rd ', 'fixed deposit', 'recurring deposit'], g => g.title.includes('FD')],
+        [['locker'], g => g.title.includes('Locker')],
+        [['emi', 'auto-debit', 'auto debit', 'nach'], g => g.title.includes('EMI')],
+        [['irctc', 'railway', 'train'], g => g.title.includes('IRCTC') || g.title.includes('Railway')],
+        [['epf', 'pf ', 'provident fund'], g => g.title.includes('EPF') || g.title.includes('PF')],
+        [['income tax', 'itr', 'tax refund'], g => g.title.includes('Income Tax')],
+        [['aadhar', 'aadhaar', 'uidai'], g => g.title.includes('Aadhar') || g.title.includes('Aadhaar')],
+        [['driving license', 'dl '], g => g.title.includes('Driving License')],
+        [['lpg', 'gas cylinder', 'indane', 'bharat gas', 'hp gas', 'ujjwala'], g => g.title.includes('LPG') || g.title.includes('Gas Cylinder')],
+        [['pm kisan', 'kisan samman'], g => g.title.includes('PM Kisan') || g.title.includes('Kisan')],
+        [['electricity', 'bijli', 'meter', 'discom'], g => g.title.includes('Electricity')],
+        [['property tax', 'municipal', 'nagar nigam', 'bmc', 'mcd'], g => g.title.includes('Municipal') || g.title.includes('Property Tax')],
+        [['birth certificate', 'death certificate'], g => g.title.includes('Birth') || g.title.includes('Death')],
+        [['airline', 'flight', 'dgca', 'airsewa'], g => g.title.includes('Airlines') || g.title.includes('Flight')],
+        [['ola', 'uber', 'cab'], g => g.title.includes('Ola') || g.title.includes('Uber')],
+        [['fastag', 'toll'], g => g.title.includes('FASTag')],
+        [['courier', 'bluedart', 'dtdc', 'delhivery'], g => g.title.includes('Courier')],
+        [['post office', 'speed post', 'india post', 'postmaster'], g => g.title.includes('Post Office')],
+        [['motor insurance', 'car insurance', 'bike insurance', 'vehicle insurance'], g => g.title.includes('Motor') || g.title.includes('Car Insurance')],
+        [['travel insurance'], g => g.title.includes('Travel Insurance')],
+        [['consumer court', 'e-daakhil', 'edaakhil', 'consumer forum'], g => g.title.includes('Consumer Court') || g.title.includes('e-Daakhil')],
+        [['rti', 'right to information', 'suchna'], g => g.title.includes('RTI')],
+        [['medical negligence', 'hospital', 'doctor'], g => g.title.includes('Medical Negligence') || g.title.includes('Hospital')],
+        [['passport'], g => g.title.includes('Passport')],
+        [['cyber', 'online fraud', 'scam'], g => g.title.includes('Cyber')],
+        [['upi', 'gpay', 'phonepe', 'paytm'], g => g.title.includes('UPI')],
+        [['rc transfer', 'vehicle rc'], g => g.title.includes('RC Transfer')],
+        [['bank', 'rbi', 'ombudsman', 'unauthorized transaction', 'atm', 'credit card', 'account frozen'], g => g.category === 'banking'],
+        [['trai', 'telecom', 'network', 'broadband', 'dth', 'port'], g => g.category === 'telecom'],
+        [['rera', 'possession', 'construction', 'builder'], g => g.category === 'rera'],
+        [['insurance', 'claim', 'irda', 'irdai'], g => g.category === 'insurance'],
+        [['ration', 'water supply'], g => g.category === 'govt'],
+      ];
+
+      for (const [keywords, finder] of matchKeywords) {
+        if (keywords.some(k => titleLower.includes(k))) {
+          guideRef = guides.find(finder)?._id;
+          if (guideRef) break;
+        }
       }
 
       return {
