@@ -1,9 +1,9 @@
 import { createPageMetadata } from '@/lib/seo';
 
 export const metadata = createPageMetadata({
-  title: 'Contact Us',
+  title: 'Contact Us — हमसे संपर्क करें',
   description:
-    'Contact Consumer Complaint Portal for website feedback, content suggestions, and general questions.',
+    'ShikayatKaro से संपर्क करें। Contact us for website feedback, content suggestions, and general questions. यह कानूनी सलाह के लिए नहीं है।',
   path: '/contact',
 });
 

@@ -19,25 +19,35 @@ type PortalListItem = {
 export const revalidate = 86400; // 24 hours
 
 export const metadata = createPageMetadata({
-  title: 'Official Complaint Portals',
+  title: 'Official Complaint Portals (2026) — आधिकारिक शिकायत पोर्टल',
   description:
-    'Direct links to official Indian complaint portals including National Consumer Helpline, e-Daakhil, TRAI, RBI Ombudsman, RERA, and IRDAI.',
+    'Direct links to official Indian complaint portals — National Consumer Helpline (NCH), e-Daakhil Consumer Court, TRAI, RBI Ombudsman, RERA, IRDAI. शिकायत दर्ज करने के सरकारी पोर्टल।',
   path: '/portals',
+  titleAbsolute: true,
   keywords: [
     'official complaint portals India',
     'National Consumer Helpline',
     'e-Daakhil',
     'RBI Ombudsman',
-    'TRAI complaint',
+    'TRAI complaint portal',
+    'RERA complaint online',
+    'IRDAI complaint',
+    'शिकायत पोर्टल',
+    'consumer complaint portal India',
   ],
 });
 
 export default async function PortalsPage() {
-  await connectDB();
-  
-  const portals = (await Portal.find({ isActive: true })
-    .sort({ name: 1 })
-    .lean()) as unknown as PortalListItem[];
+  let portals: PortalListItem[] = [];
+
+  try {
+    await connectDB();
+    portals = (await Portal.find({ isActive: true })
+      .sort({ name: 1 })
+      .lean()) as unknown as PortalListItem[];
+  } catch (error) {
+    console.warn('PortalsPage DB error:', error);
+  }
 
   const portalsByCategory = portals.reduce<Record<string, PortalListItem[]>>((acc, portal) => {
     if (!acc[portal.category]) {
@@ -116,7 +126,7 @@ export default async function PortalsPage() {
                     </p>
                   </div>
                   <Link
-                    href={`/guides?category=${typedCategory}`}
+                    href={`/guides/category/${typedCategory}`}
                     className="font-semibold text-emerald-700 hover:text-emerald-900"
                   >
                     Guides for {CATEGORY_LABELS[typedCategory]} →

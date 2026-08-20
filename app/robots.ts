@@ -15,9 +15,6 @@ export default function robots(): MetadataRoute.Robots {
           '/api/',
           '/search',
           '/search?*',
-          // Block filter URLs to prevent crawl budget waste
-          '/guides?*',
-          '/templates?*',
         ],
       },
     ],

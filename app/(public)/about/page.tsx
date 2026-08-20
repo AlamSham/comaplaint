@@ -1,11 +1,19 @@
 import Link from 'next/link';
-import { createPageMetadata } from '@/lib/seo';
+import { createPageMetadata, AUTHOR_CONFIG } from '@/lib/seo';
 
 export const metadata = createPageMetadata({
-  title: 'About Us',
+  title: 'About ShikayatKaro (2026) — हमारे बारे में',
   description:
-    'Learn about Consumer Complaint Portal, a free informational website with consumer complaint guides, templates, and official portal links for India.',
+    'ShikayatKaro के बारे में जानें। India free consumer rights information portal — guides, letter formats, and official government portal resources.',
   path: '/about',
+  titleAbsolute: true,
+  keywords: [
+    'ShikayatKaro',
+    'consumer complaint portal about',
+    'consumer rights India',
+    'उपभोक्ता अधिकार भारत',
+    'consumer protection act 2019 hindi',
+  ],
 });
 
 export default function AboutPage() {
@@ -32,7 +40,7 @@ export default function AboutPage() {
                 We Are NOT a Law Firm / हम कानूनी फर्म नहीं हैं
               </h3>
               <p className="text-red-800 leading-relaxed mb-2">
-                <strong>Important:</strong> Consumer Complaint Portal is an <strong>information website only</strong>. 
+                <strong>Important:</strong> ShikayatKaro is an <strong>information website only</strong>. 
                 We do NOT provide legal advice, legal representation, or legal services of any kind. 
                 We are NOT lawyers and do NOT practice law.
               </p>
@@ -54,7 +62,7 @@ export default function AboutPage() {
             <h3 className="text-2xl font-bold text-gray-900">Our Mission</h3>
           </div>
           <p className="text-gray-700 leading-relaxed mb-4">
-            Consumer Complaint Portal is dedicated to empowering Indian consumers by simplifying the complaint filing process. 
+            ShikayatKaro is dedicated to empowering Indian consumers by simplifying the complaint filing process. 
             We believe every consumer deserves quick and effective resolution to their grievances.
           </p>
           <p className="text-gray-700 leading-relaxed">
@@ -129,6 +137,62 @@ export default function AboutPage() {
               <div className="text-sm opacity-90">Free to Use</div>
             </div>
           </div>
+
+        {/* Team / Author Info — E-E-A-T Signal */}
+        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+          <div className="flex items-center mb-6">
+            <div className="text-4xl mr-4">👤</div>
+            <h3 className="text-2xl font-bold text-gray-900">Our Team</h3>
+          </div>
+          <div className="flex items-start gap-4">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-700 text-white font-bold text-xl flex-shrink-0">
+              {AUTHOR_CONFIG.name.charAt(0)}
+            </div>
+            <div>
+              <h4 className="text-lg font-bold text-gray-900">{AUTHOR_CONFIG.name}</h4>
+              <p className="text-sm text-emerald-700 font-semibold mb-2">{AUTHOR_CONFIG.role}</p>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                {AUTHOR_CONFIG.description}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Sources — Trust Signal */}
+        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
+          <div className="flex items-center mb-6">
+            <div className="text-4xl mr-4">🔗</div>
+            <h3 className="text-2xl font-bold text-gray-900">Our Sources</h3>
+          </div>
+          <p className="text-gray-700 mb-4">
+            All our guides reference official government portals and verified consumer rights resources:
+          </p>
+          <div className="grid md:grid-cols-2 gap-3">
+            {[
+              ['National Consumer Helpline', 'consumerhelpline.gov.in', 'https://consumerhelpline.gov.in'],
+              ['e-Daakhil Consumer Court', 'edaakhil.nic.in', 'https://edaakhil.nic.in'],
+              ['RBI Ombudsman', 'cms.rbi.org.in', 'https://cms.rbi.org.in'],
+              ['TRAI', 'trai.gov.in', 'https://trai.gov.in'],
+              ['RERA (MahaRERA)', 'maharera.maharashtra.gov.in', 'https://maharera.maharashtra.gov.in'],
+              ['IRDAI', 'irdai.gov.in', 'https://irdai.gov.in'],
+              ['CPGRAMS', 'pgportal.gov.in', 'https://pgportal.gov.in'],
+              ['VAHAN / Parivahan', 'vahan.parivahan.gov.in', 'https://vahan.parivahan.gov.in'],
+            ].map(([name, domain, url]) => (
+              <a
+                key={domain}
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition"
+              >
+                <div>
+                  <div className="font-semibold text-blue-900 text-sm">{name}</div>
+                  <div className="text-xs text-blue-700">{domain} ↗</div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
         </div>
 
         {/* How We Help */}

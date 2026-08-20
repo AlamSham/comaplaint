@@ -17,7 +17,7 @@ export function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <span className="text-xl font-bold text-blue-600">
-              Consumer Portal
+              ShikayatKaro
             </span>
           </Link>
 

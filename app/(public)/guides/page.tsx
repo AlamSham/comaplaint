@@ -34,7 +34,7 @@ export async function generateMetadata({
     (params.category && params.category !== 'all') || (params.language && params.language !== 'all');
   
   return createPageMetadata({
-    title: 'Complaint Guides | Consumer Complaint Portal',
+    title: 'Complaint Guides (2026) — शिकायत गाइड',
     description:
       'Step-by-step guides to file consumer complaints in India for RC transfer, e-commerce, banking, telecom, RERA, insurance, and government services.',
     path: '/guides',
@@ -42,9 +42,17 @@ export async function generateMetadata({
     keywords: [
       'consumer complaint guides',
       'complaint kaise kare',
-      'consumer forum guide',
+      'consumer forum guide Hindi',
       'online complaint filing India',
       'RC transfer complaint guide',
+      'flipkart complaint process',
+      'amazon refund guide',
+      'bank ombudsman complaint guide',
+      'upi transaction dispute guide',
+      'rera complaint online guide',
+      'insurance claim rejection guide',
+      'consumer court edaakhil guide',
+      'उपभोक्ता शिकायत गाइड',
     ],
   });
 }
@@ -126,7 +134,7 @@ export default async function GuidesPage({
             {CATEGORIES.map((item) => (
               <Link
                 key={item}
-                href={`/guides?category=${item}`}
+                href={`/guides/category/${item}`}
                 className="rounded-lg border border-stone-200 bg-white p-5 hover:border-emerald-500 transition"
               >
                 <h2 className="font-bold text-gray-950">{CATEGORY_LABELS[item]}</h2>
@@ -173,11 +181,10 @@ export default async function GuidesPage({
                       href={`/guides/${guide.slug}`}
                       className="bg-white rounded-lg border border-stone-200 hover:border-emerald-500 transition p-6"
                     >
-                      <div className="mb-3 flex items-center justify-between gap-3 text-xs">
+                      <div className="mb-3 flex items-center gap-3 text-xs">
                         <span className="rounded-full bg-emerald-50 px-3 py-1 font-semibold text-emerald-800">
                           {guide.language}
                         </span>
-                        <span className="text-gray-500">{guide.views} views</span>
                       </div>
                       <h3 className="text-lg font-semibold text-gray-950 mb-2">
                         {guide.title}

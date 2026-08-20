@@ -10,7 +10,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { JsonLd } from "@/components/shared/JsonLd";
 import {
-  DEFAULT_KEYWORDS,
+  HOMEPAGE_KEYWORDS,
   SITE_CONFIG,
   createOrganizationJsonLd,
   createWebsiteJsonLd,
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
   description: SITE_CONFIG.description,
   applicationName: SITE_CONFIG.name,
-  keywords: DEFAULT_KEYWORDS,
+  keywords: HOMEPAGE_KEYWORDS,
   authors: [{ name: SITE_CONFIG.name }],
   creator: SITE_CONFIG.name,
   publisher: SITE_CONFIG.name,
@@ -83,8 +83,8 @@ export const metadata: Metadata = {
     : undefined,
   formatDetection: {
     telephone: true,
-    address: false,
-    email: false,
+    address: true,
+    email: true,
   },
 };
 
@@ -95,7 +95,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="hi"
+      lang="hi-Latn"
       className={`${inter.variable} ${notoSansDevanagari.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">

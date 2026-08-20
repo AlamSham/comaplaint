@@ -6,6 +6,8 @@ import Guide from '@/lib/db/models/Guide';
 import { validateGuideData } from '@/lib/utils/validation';
 import { slugify, generateUniqueSlug } from '@/lib/utils/slugify';
 
+import { revalidatePath } from 'next/cache';
+
 export async function GET(request: NextRequest) {
   try {
     await connectDB();
@@ -68,6 +70,15 @@ export async function POST(request: NextRequest) {
       ...data,
       slug,
     });
+
+    // On-Demand Revalidation: Purge cache for homepage, guide pages, category hub, & sitemap only when new guide is added
+    revalidatePath('/');
+    revalidatePath('/guides');
+    revalidatePath(`/guides/${slug}`);
+    if (data.category) {
+      revalidatePath(`/guides/category/${data.category}`);
+    }
+    revalidatePath('/sitemap.xml');
 
     return NextResponse.json({
       guide,

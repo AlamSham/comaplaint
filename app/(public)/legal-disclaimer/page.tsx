@@ -1,9 +1,9 @@
 import { createPageMetadata } from '@/lib/seo';
 
 export const metadata = createPageMetadata({
-  title: 'Legal Disclaimer',
+  title: 'Legal Disclaimer — कानूनी अस्वीकरण',
   description:
-    'Important legal disclaimer for Consumer Complaint Portal. This website provides general information only and does not provide legal advice.',
+    'ShikayatKaro का कानूनी अस्वीकरण। यह वेबसाइट केवल सामान्य जानकारी प्रदान करती है, कानूनी सलाह नहीं। Important legal disclaimer — we provide general information only, not legal advice.',
   path: '/legal-disclaimer',
 });
 

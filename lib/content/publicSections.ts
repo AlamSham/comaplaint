@@ -178,27 +178,27 @@ export const CATEGORY_DETAILS: Record<Category, CategoryDetail> = {
 export const TOPIC_CLUSTERS = [
   {
     title: 'Shopping refund and delivery issues',
-    href: '/guides?category=ecommerce',
+    href: '/guides/category/ecommerce',
     keywords: ['amazon complaint', 'flipkart refund', 'wrong product complaint'],
   },
   {
     title: 'Banking and UPI disputes',
-    href: '/guides?category=banking',
+    href: '/guides/category/banking',
     keywords: ['RBI ombudsman', 'UPI failed transaction', 'unauthorized debit'],
   },
   {
     title: 'Mobile, DTH, and broadband complaints',
-    href: '/guides?category=telecom',
+    href: '/guides/category/telecom',
     keywords: ['TRAI complaint', 'network issue', 'billing dispute'],
   },
   {
     title: 'Builder and property complaints',
-    href: '/guides?category=rera',
+    href: '/guides/category/rera',
     keywords: ['RERA complaint', 'delayed possession', 'builder refund'],
   },
   {
     title: 'RC transfer and public service delay',
-    href: '/guides?category=govt',
+    href: '/guides/category/govt',
     keywords: ['RC transfer delay', 'RTO complaint', 'Form 29 Form 30'],
   },
 ];

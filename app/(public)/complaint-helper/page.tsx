@@ -4,15 +4,22 @@ import { JsonLd } from '@/components/shared/JsonLd';
 import { absoluteUrl, createPageMetadata } from '@/lib/seo';
 
 export const metadata = createPageMetadata({
-  title: 'Smart Complaint Draft Helper',
+  title: 'Smart Complaint Draft Helper (2026) — शिकायत पत्र ड्राफ्ट टूल',
   description:
-    'Create a complaint draft, proof checklist, and escalation route for RC transfer, refund, banking, telecom, RERA, insurance, and government service issues.',
+    'Online complaint draft generator for Indian consumers. Create a complaint letter, proof checklist, and escalation path for refund, bank, UPI, RTO, telecom, and insurance disputes.',
   path: '/complaint-helper',
+  titleAbsolute: true,
   keywords: [
     'complaint draft helper',
     'AI complaint letter generator',
+    'online complaint letter maker Hindi',
     'RC transfer complaint draft',
     'consumer complaint draft India',
+    'complaint letter generator online',
+    'shikayat patra kaise likhe',
+    'bank complaint letter maker',
+    'online refund complaint generator',
+    'उपभोक्ता शिकायत पत्र ड्राफ्ट',
   ],
 });
 
@@ -27,7 +34,7 @@ export default function ComplaintHelperPage() {
     isAccessibleForFree: true,
     publisher: {
       '@type': 'Organization',
-      name: 'Consumer Complaint Portal',
+      name: 'ShikayatKaro',
       url: absoluteUrl('/'),
     },
   };

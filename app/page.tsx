@@ -3,7 +3,7 @@ import Guide from '@/lib/db/models/Guide';
 import Template from '@/lib/db/models/Template';
 import Link from 'next/link';
 import { JsonLd } from '@/components/shared/JsonLd';
-import { createItemListJsonLd, createPageMetadata } from '@/lib/seo';
+import { createItemListJsonLd, createPageMetadata, HOMEPAGE_KEYWORDS } from '@/lib/seo';
 import { CATEGORIES, CATEGORY_LABELS, type Category, type Language } from '@/lib/constants';
 import {
   CATEGORY_DETAILS,
@@ -38,57 +38,66 @@ type CategoryCount = {
   count: number;
 };
 
-export const revalidate = 3600; // 1 hour
+export const revalidate = 86400; // 24 hours — relies on On-Demand Revalidation (/api/revalidate)
 
 export const metadata = createPageMetadata({
-  title: 'Consumer Complaint Portal - शिकायत पोर्टल',
+  title: 'ShikayatKaro — Consumer Complaint Portal (2026)',
   description:
-    'Free Hindi-first consumer complaint guides, letter templates, and official portal links for filing complaints in India.',
+    'Free consumer complaint guides, letter templates, and official portal links for filing complaints in India. शिकायत दर्ज करने का सही तरीका।',
   path: '/',
-  keywords: [
-    'consumer complaint portal India',
-    'consumer complaint guide Hindi',
-    'complaint letter template Hindi',
-    'online complaint kaise kare',
-  ],
+  titleAbsolute: true,
+  keywords: HOMEPAGE_KEYWORDS,
 });
 
 export default async function Home() {
-  await connectDB();
-  
-  const topGuides = (await Guide.find({ published: true })
-    .select('title slug category language content views metadata.description')
-    .sort({ views: -1 })
-    .limit(6)
-    .lean()) as unknown as HomeGuide[];
+  let topGuides: HomeGuide[] = [];
+  let allGuides: Array<{ _id: { toString(): string }; title: string; slug: string; category: Category }> = [];
+  let topTemplates: HomeTemplate[] = [];
+  let allTemplates: Array<{ _id: { toString(): string }; title: string; slug: string; language: Language }> = [];
+  let categoryCounts: CategoryCount[] = [];
 
-  // Fetch ALL guides for the complete index section (critical for indexing)
-  const allGuides = (await Guide.find({ published: true })
-    .select('title slug category')
-    .sort({ category: 1, views: -1 })
-    .lean()) as unknown as Array<{ _id: { toString(): string }; title: string; slug: string; category: Category }>;
+  try {
+    await connectDB();
+    
+    topGuides = (await Guide.find({ published: true })
+      .select('title slug category language content views metadata.description')
+      .sort({ views: -1 })
+      .limit(6)
+      .lean()) as unknown as HomeGuide[];
 
-  const topTemplates = (await Template.find()
-    .select('title slug language content downloadCount')
-    .sort({ downloadCount: -1 })
-    .limit(4)
-    .lean()) as unknown as HomeTemplate[];
+    // Fetch ALL guides for the complete index section (critical for indexing)
+    allGuides = (await Guide.find({ published: true })
+      .select('title slug category')
+      .sort({ category: 1, views: -1 })
+      .lean()) as unknown as typeof allGuides;
 
-  // Fetch ALL templates for the complete index section
-  const allTemplates = (await Template.find()
-    .select('title slug language')
-    .sort({ language: 1 })
-    .lean()) as unknown as Array<{ _id: { toString(): string }; title: string; slug: string; language: Language }>;
+    topTemplates = (await Template.find()
+      .select('title slug language content downloadCount')
+      .sort({ downloadCount: -1 })
+      .limit(4)
+      .lean()) as unknown as HomeTemplate[];
 
-  const categoryCounts = (await Guide.aggregate([
-    { $match: { published: true } },
-    { $group: { _id: '$category', count: { $sum: 1 } } },
-  ])) as CategoryCount[];
+    // Fetch ALL templates for the complete index section
+    allTemplates = (await Template.find()
+      .select('title slug language')
+      .sort({ language: 1 })
+      .lean()) as unknown as typeof allTemplates;
+
+    categoryCounts = (await Guide.aggregate([
+      { $match: { published: true } },
+      { $group: { _id: '$category', count: { $sum: 1 } } },
+    ])) as CategoryCount[];
+  } catch (error) {
+    console.warn('HomePage DB error:', error);
+  }
 
   const guideCountByCategory = categoryCounts.reduce<Record<string, number>>((acc, category) => {
     acc[category._id] = category.count;
     return acc;
   }, {});
+
+  const totalGuidesCount = allGuides.length || 45;
+  const totalTemplatesCount = allTemplates.length || 32;
 
   return (
     <div className="min-h-screen bg-stone-50">
@@ -118,16 +127,16 @@ export default async function Home() {
           <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
             <div>
               <p className="text-sm font-semibold uppercase tracking-wide text-emerald-700 mb-4">
-                Free consumer help for India
+                🇮🇳 उपभोक्ता समाधान पोर्टल — Free Help for Indian Consumers
               </p>
               <h1 className="text-4xl md:text-6xl font-bold text-gray-950 mb-4 leading-tight">
-                Consumer Complaint Portal
+                ShikayatKaro — शिकायत कैसे करें (2026)
               </h1>
               <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-6">
-                उपभोक्ता शिकायत पोर्टल
+                उपभोक्ता समस्याओं का आसान समाधान
               </h2>
               <p className="text-lg text-gray-600 mb-8 max-w-3xl leading-relaxed">
-                Find the correct complaint route, collect the right proof, and use ready complaint formats for refunds, banking disputes, telecom issues, RERA matters, insurance claims, and public services.
+                ऑनलाइन शॉपिंग फ्रॉड, बैंक रिफंड, UPI पेमेंट फेल, सिम पोर्ट, बिल्डर डिले, और इंश्योरेंस रिजेक्शन की शिकायत दर्ज करने का सही तरीका। तैयार शिकायत पत्र (Templates) और सीधे सरकारी पोर्टल (NCH, e-Daakhil, RBI) लिंक्स।
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link
@@ -140,13 +149,13 @@ export default async function Home() {
                   href="/guides"
                   className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-6 py-3 text-gray-900 font-semibold hover:border-gray-500 transition"
                 >
-                  Browse Guides
+                  Browse Guides ({totalGuidesCount})
                 </Link>
                 <Link
                   href="/templates"
                   className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-6 py-3 text-gray-900 font-semibold hover:border-gray-500 transition"
                 >
-                  Get Templates
+                  Get Templates ({totalTemplatesCount})
                 </Link>
                 <Link
                   href="/portals"
@@ -158,7 +167,7 @@ export default async function Home() {
             </div>
 
             <div className="rounded-lg border border-stone-200 bg-stone-50 p-5">
-              <h3 className="text-lg font-bold text-gray-950 mb-4">Start With Your Problem</h3>
+              <h3 className="text-lg font-bold text-gray-950 mb-4">Start With Your Problem (अपनी समस्या चुनें)</h3>
               <div className="space-y-3">
                 {TOPIC_CLUSTERS.map((cluster) => (
                   <Link
@@ -186,10 +195,10 @@ export default async function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { label: 'Complaint categories', value: CATEGORIES.length },
-              { label: 'Ready templates', value: '32+' },
-              { label: 'Draft helper', value: 'Live' },
-              { label: 'Official routes', value: 'NCH, VAHAN, RBI' },
+              { label: 'Complaint Categories', value: `${CATEGORIES.length} Topics` },
+              { label: 'Verified Step Guides', value: `${totalGuidesCount}+ Guides` },
+              { label: 'Ready Letter Formats', value: `${totalTemplatesCount}+ Formats` },
+              { label: 'Official Gov Routes', value: 'NCH, RBI, TRAI, RERA' },
             ].map((stat) => (
               <div key={stat.label} className="rounded-lg border border-stone-200 bg-white p-5">
                 <div className="text-2xl font-bold text-gray-950">{stat.value}</div>
@@ -231,17 +240,17 @@ export default async function Home() {
                 {
                   title: 'Refund not received',
                   description: 'Shopping refunds, failed payments, cancellation proof, and support ticket escalation.',
-                  href: '/guides?category=ecommerce',
+                  href: '/guides/category/ecommerce',
                 },
                 {
                   title: 'Bank transaction dispute',
                   description: 'UPI, ATM, unauthorized debit, complaint reference, and RBI escalation path.',
-                  href: '/guides?category=banking',
+                  href: '/guides/category/banking',
                 },
                 {
                   title: 'Insurance claim rejection',
                   description: 'Policy documents, rejection reason, claim proof, and ombudsman route.',
-                  href: '/guides?category=insurance',
+                  href: '/guides/category/insurance',
                 },
               ].map((item) => (
                 <Link
@@ -273,7 +282,7 @@ export default async function Home() {
             {CATEGORIES.map((category) => (
               <Link
                 key={category}
-                href={`/guides?category=${category}`}
+                href={`/guides/category/${category}`}
                 className="rounded-lg border border-stone-200 bg-white p-5 hover:border-emerald-500 hover:shadow-sm transition"
               >
                 <div className="flex items-start justify-between gap-3">
@@ -315,9 +324,6 @@ export default async function Home() {
                   <div className="flex items-center justify-between gap-3 mb-3">
                     <span className="px-3 py-1 bg-emerald-50 text-emerald-800 rounded-full text-sm font-semibold">
                       {CATEGORY_LABELS[guide.category]}
-                    </span>
-                    <span className="text-sm text-gray-500">
-                      {guide.views}
                     </span>
                   </div>
                   <h3 className="text-lg font-semibold text-gray-950 mb-2">

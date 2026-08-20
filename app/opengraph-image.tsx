@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
 
-export const alt = 'Consumer Complaint Portal | Free consumer complaint guides and templates for India';
+export const alt = 'ShikayatKaro | Free consumer complaint guides and templates for India (2026)';
 export const size = {
   width: 1200,
   height: 630,
@@ -76,7 +76,7 @@ export default async function Image() {
               marginBottom: '16px',
             }}
           >
-            Consumer Complaint Portal
+            ShikayatKaro (2026)
           </div>
           <div
             style={{
@@ -87,7 +87,7 @@ export default async function Image() {
               marginBottom: '24px',
             }}
           >
-            India Legal & Resolution Platform
+            Consumer Complaint Portal — शिकायत पोर्टल
           </div>
           <div
             style={{

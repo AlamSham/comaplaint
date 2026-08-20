@@ -3,22 +3,44 @@ import { connectDB } from '@/lib/db/mongoose';
 import Guide from '@/lib/db/models/Guide';
 import Template from '@/lib/db/models/Template';
 import { getBaseUrl } from '@/lib/seo';
+import { CATEGORIES } from '@/lib/constants';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = getBaseUrl();
   const now = new Date();
 
-  await connectDB();
+  let guidePages: MetadataRoute.Sitemap = [];
+  let templatePages: MetadataRoute.Sitemap = [];
 
-  // Fetch all published guides
-  const guides = await Guide.find({ published: true })
-    .select('slug updatedAt category')
-    .lean();
+  try {
+    await connectDB();
 
-  // Fetch all templates
-  const templates = await Template.find()
-    .select('slug updatedAt')
-    .lean();
+    // Fetch all published guides
+    const guides = await Guide.find({ published: true })
+      .select('slug updatedAt category')
+      .lean();
+
+    // Fetch all templates
+    const templates = await Template.find()
+      .select('slug updatedAt')
+      .lean();
+
+    guidePages = guides.map((guide) => ({
+      url: `${baseUrl}/guides/${guide.slug}`,
+      lastModified: guide.updatedAt || now,
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    }));
+
+    templatePages = templates.map((template) => ({
+      url: `${baseUrl}/templates/${template.slug}`,
+      lastModified: template.updatedAt || now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.75,
+    }));
+  } catch (error) {
+    console.warn('Sitemap DB error — returning static pages only:', error);
+  }
 
   const staticPages: MetadataRoute.Sitemap = [
     { path: '', changeFrequency: 'daily' as const, priority: 1.0 },
@@ -38,21 +60,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: page.priority,
   }));
 
-  // Guide pages - higher priority since these are content pages
-  const guidePages: MetadataRoute.Sitemap = guides.map((guide) => ({
-    url: `${baseUrl}/guides/${guide.slug}`,
-    lastModified: guide.updatedAt || now,
+  // Category hub pages — high priority landing pages (no DB needed)
+  const categoryPages: MetadataRoute.Sitemap = CATEGORIES.map((category) => ({
+    url: `${baseUrl}/guides/category/${category}`,
+    lastModified: now,
     changeFrequency: 'weekly' as const,
-    priority: 0.8,
+    priority: 0.85,
   }));
 
-  // Template pages - these are high-value content pages
-  const templatePages: MetadataRoute.Sitemap = templates.map((template) => ({
-    url: `${baseUrl}/templates/${template.slug}`,
-    lastModified: template.updatedAt || now,
-    changeFrequency: 'monthly' as const,
-    priority: 0.75,
-  }));
-
-  return [...staticPages, ...guidePages, ...templatePages];
+  return [...staticPages, ...categoryPages, ...guidePages, ...templatePages];
 }

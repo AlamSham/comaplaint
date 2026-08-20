@@ -11,7 +11,7 @@ import { SocialShare } from '@/components/shared/SocialShare';
 import { Breadcrumbs } from '@/components/shared/Breadcrumbs';
 import { JsonLd } from '@/components/shared/JsonLd';
 import { ViewTracker } from '@/components/shared/ViewTracker';
-import { absoluteUrl, createPageMetadata } from '@/lib/seo';
+import { absoluteUrl, createPageMetadata, createAuthorJsonLd, AUTHOR_CONFIG } from '@/lib/seo';
 import {
   CATEGORY_DETAILS,
   getReadingMinutes,
@@ -80,7 +80,7 @@ const SAMPLE_COMPLAINT_DRAFTS: Record<Category, string> = {
     'Subject: Insurance complaint regarding policy {{policy_number}} and claim {{claim_number}}\n\nI hold policy number {{policy_number}} with {{insurer_name}}. I submitted claim number {{claim_number}} for {{claim_reason}} on {{claim_date}}. The claim was rejected/delayed/partly settled citing {{rejection_reason}}. I believe this is incorrect because {{brief_explanation}}. I am attaching policy copy, premium receipts, claim documents, and insurer communication. Please reconsider and settle the claim with written reasons.',
 };
 
-export const revalidate = 86400; // 24 hours
+export const revalidate = 86400; // 24 hours — relies on On-Demand Revalidation via API/Admin
 
 export async function generateStaticParams() {
   try {
@@ -167,13 +167,10 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
       '@type': 'WebPage',
       '@id': guideUrl,
     },
-    author: {
-      '@type': 'Organization',
-      name: 'Consumer Complaint Portal',
-    },
+    author: createAuthorJsonLd(),
     publisher: {
       '@type': 'Organization',
-      name: 'Consumer Complaint Portal',
+      name: 'ShikayatKaro',
       url: absoluteUrl('/'),
     },
     datePublished: guide.createdAt,
@@ -285,7 +282,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
                 {[
                   ['Category', CATEGORY_LABELS[guide.category]],
                   ['Updated', lastUpdated],
-                  ['Views', String(guide.views)],
+                  ['Last verified', `August 2026`],
                 ].map(([label, value]) => (
                   <div key={label} className="rounded-lg border border-stone-200 bg-stone-50 p-4">
                     <div className="text-xs font-semibold uppercase tracking-wide text-gray-500">{label}</div>
@@ -294,30 +291,37 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
                 ))}
               </div>
 
-              {/* AI Search & SGE Executive Summary Card */}
-              <div className="rounded-lg border border-emerald-200 bg-emerald-50/90 p-5 mb-6">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-800 mb-2">
-                  <span className="inline-block h-2 w-2 rounded-full bg-emerald-600 animate-pulse" />
-                  Key Takeaways (AI & Search Overview)
+              {/* Author byline & Human E-E-A-T Banner */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 p-4 rounded-lg border border-stone-200 bg-stone-50">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-700 text-white font-bold text-sm">
+                    {AUTHOR_CONFIG.name.charAt(0)}
+                  </div>
+                  <div>
+                    <div className="font-semibold text-gray-950 text-sm">{AUTHOR_CONFIG.name}</div>
+                    <div className="text-xs text-gray-600">{AUTHOR_CONFIG.role} · Verified {lastUpdated}</div>
+                  </div>
                 </div>
-                <ul className="space-y-2 text-sm text-emerald-950 font-medium">
-                  <li className="flex items-start gap-2">
-                    <span className="text-emerald-700">✓</span>
-                    <span><strong>First Step:</strong> Raise formal written complaint with support/bank/company & collect reference ticket number.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-emerald-700">✓</span>
-                    <span><strong>Proof Needed:</strong> Invoices, payment transaction UTR, screenshots, emails, and timeline log.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-emerald-700">✓</span>
-                    <span><strong>Escalation Route:</strong> Escalate to NCH (1915), RBI Ombudsman, RERA, TRAI, or e-Daakhil Consumer Commission if unresolved.</span>
-                  </li>
-                </ul>
+                <div className="text-xs font-semibold text-emerald-800 bg-emerald-100/70 px-3 py-1.5 rounded-md self-start sm:self-auto">
+                  ✓ Verified Helpline Numbers & Gov Links included
+                </div>
+              </div>
+
+              {/* Genuine Non-Lawyer Practical Disclaimer Box */}
+              <div className="mb-6 rounded-lg border border-blue-200 bg-blue-50/80 p-4 text-xs leading-relaxed text-blue-950">
+                <p className="font-bold text-blue-900 mb-1">
+                  💡 Practical Consumer Guidance / उपभोक्ता व्यावहारिक मार्गदर्शन
+                </p>
+                <p className="text-blue-900 mb-1">
+                  हम वकील नहीं हैं। यह गाइड भारतीय उपभोक्ताओं की वास्तविक समस्याओं (रिफंड, बैंक विवाद, डिलीवरी इश्यू) को हल करने के लिए तैयार की गई है। शिकायत हमेशा केवल आधिकारिक सरकारी पोर्टल (NCH 1915, RBI, e-Daakhil) पर ही दर्ज करें।
+                </p>
+                <p className="text-blue-800">
+                  <em>Note: This is an independent consumer research guide. We do NOT provide legal services or charge any fees.</em>
+                </p>
               </div>
 
               <section id="summary" className="mb-8 rounded-lg border border-emerald-200 bg-emerald-50 p-5">
-                <h2 className="text-xl font-bold text-emerald-950 mb-3">Quick Summary</h2>
+                <h2 className="text-xl font-bold text-emerald-950 mb-3">Quick Summary (संक्षेप में)</h2>
                 <p className="text-emerald-950 leading-7">{categoryDetail.guideIntro}</p>
               </section>
 

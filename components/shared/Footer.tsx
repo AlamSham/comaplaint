@@ -53,27 +53,27 @@ export function Footer() {
             <h3 className="text-lg font-semibold mb-4">Categories</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/guides?category=ecommerce" className="text-gray-400 hover:text-white transition">
+                <Link href="/guides/category/ecommerce" className="text-gray-400 hover:text-white transition">
                   E-commerce
                 </Link>
               </li>
               <li>
-                <Link href="/guides?category=banking" className="text-gray-400 hover:text-white transition">
+                <Link href="/guides/category/banking" className="text-gray-400 hover:text-white transition">
                   Banking
                 </Link>
               </li>
               <li>
-                <Link href="/guides?category=telecom" className="text-gray-400 hover:text-white transition">
+                <Link href="/guides/category/telecom" className="text-gray-400 hover:text-white transition">
                   Telecom
                 </Link>
               </li>
               <li>
-                <Link href="/guides?category=rera" className="text-gray-400 hover:text-white transition">
+                <Link href="/guides/category/rera" className="text-gray-400 hover:text-white transition">
                   RERA
                 </Link>
               </li>
               <li>
-                <Link href="/guides?category=insurance" className="text-gray-400 hover:text-white transition">
+                <Link href="/guides/category/insurance" className="text-gray-400 hover:text-white transition">
                   Insurance
                 </Link>
               </li>

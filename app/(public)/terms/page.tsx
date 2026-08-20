@@ -1,8 +1,9 @@
 import { createPageMetadata } from '@/lib/seo';
 
 export const metadata = createPageMetadata({
-  title: 'Terms of Service',
-  description: 'Terms and conditions for using Consumer Complaint Portal.',
+  title: 'Terms of Service — सेवा की शर्तें',
+  description:
+    'ShikayatKaro उपयोग की शर्तें। Terms and conditions for using ShikayatKaro consumer complaint portal.',
   path: '/terms',
 });
 

@@ -1,27 +1,58 @@
 import type { Metadata } from 'next';
 
+// TODO: Replace these with your real details
 export const SITE_CONFIG = {
-  name: 'Consumer Complaint Portal',
-  title: 'Consumer Complaint Portal - शिकायत पोर्टल',
+  name: 'ShikayatKaro',
+  title: 'ShikayatKaro — Consumer Complaint Portal (2026)',
   description:
-    'Hindi-first consumer complaint guides, complaint letter templates, and official portal links for Indian consumers.',
+    'Free consumer complaint guides, complaint letter templates, and official portal links for Indian consumers. शिकायत दर्ज करने का सही तरीका।',
   locale: 'hi_IN',
-  twitterHandle: '@ConsumerPortalIN',
-  legalName: 'Consumer Complaint Portal',
+  twitterHandle: '@ShikayatKaro', // TODO: Create and update
+  legalName: 'ShikayatKaro',
+  contactEmail: 'contact@shikayatkaro.com', // TODO: Update with real email
+  foundingYear: '2026',
+  // TODO: Add your real social media profile URLs
+  socialLinks: [
+    // 'https://twitter.com/ShikayatKaro',
+    // 'https://www.linkedin.com/company/shikayatkaro',
+    // 'https://www.youtube.com/@ShikayatKaro',
+  ] as string[],
 } as const;
 
-export const DEFAULT_KEYWORDS = [
-  'consumer complaint',
-  'consumer complaint India',
-  'consumer forum complaint',
-  'complaint letter format',
-  'consumer complaint letter',
-  'online consumer complaint',
-  'consumer helpline',
-  'उपभोक्ता शिकायत',
+// TODO: Replace with your real name and bio
+export const AUTHOR_CONFIG = {
+  name: 'ShikayatKaro Team', // TODO: Replace with real author name
+  role: 'Consumer Rights Researcher',
+  description:
+    'Consumer rights researcher focused on simplifying complaint filing for Indian consumers. Covers e-commerce, banking, telecom, RERA, insurance, and government services.',
+  // TODO: Add your profile URL
+  url: 'https://shikayatkaro.com/about',
+} as const;
+
+// High-intent search keywords for maximum Google Impressions in India
+export const HOMEPAGE_KEYWORDS = [
+  'consumer complaint portal India',
+  'consumer complaint guide Hindi',
+  'complaint letter template Hindi',
+  'online complaint kaise kare',
+  'उपभोक्ता शिकायत दर्ज करें',
   'शिकायत कैसे करें',
-  'कंज्यूमर कोर्ट शिकायत',
-  'शिकायत पत्र फॉर्मेट',
+  'कंज्यूमर कोर्ट ऑनलाइन शिकायत',
+  'शिकायत पत्र फॉर्मेट हिंदी',
+  'National Consumer Helpline 1915',
+  'e Daakhil consumer court portal',
+  'RBI Banking Ombudsman complaint',
+  'बैंकिंग लोकपाल शिकायत फॉर्म',
+  'Flipkart complaint email id',
+  'Meesho refund complaint number',
+  'Amazon refund complaint guide',
+  'UPI failed transaction money debited refund',
+  'CIBIL score correction online Hindi',
+  'Cheque bounce legal notice format',
+  'TRAI telecom complaint process',
+  'RERA builder delay complaint',
+  'RTO RC transfer delay complaint',
+  'Insurance claim rejection complaint IRDAI',
 ];
 
 export type BreadcrumbItem = {
@@ -74,7 +105,7 @@ export function createPageMetadata({
   modifiedTime,
 }: MetadataOptions): Metadata {
   const canonical = canonicalPath(path);
-  const mergedKeywords = [...DEFAULT_KEYWORDS, ...keywords];
+  // Each page defines its OWN keywords — no more global merging (fixes keyword cannibalization)
   const robots = noIndex
     ? {
         index: false,
@@ -101,7 +132,7 @@ export function createPageMetadata({
   return {
     title: titleAbsolute ? { absolute: title } : title,
     description,
-    keywords: mergedKeywords,
+    keywords: keywords.length > 0 ? keywords : undefined,
     alternates: {
       canonical,
     },
@@ -117,6 +148,7 @@ export function createPageMetadata({
         ? {
             publishedTime: publishedTime ? new Date(publishedTime).toISOString() : undefined,
             modifiedTime: modifiedTime ? new Date(modifiedTime).toISOString() : undefined,
+            authors: [AUTHOR_CONFIG.name],
           }
         : {}),
     },
@@ -141,7 +173,14 @@ export function createOrganizationJsonLd() {
     legalName: SITE_CONFIG.legalName,
     url: absoluteUrl('/'),
     description: SITE_CONFIG.description,
-    sameAs: [],
+    foundingDate: SITE_CONFIG.foundingYear,
+    contactPoint: {
+      '@type': 'ContactPoint',
+      email: SITE_CONFIG.contactEmail,
+      contactType: 'customer support',
+      availableLanguage: ['Hindi', 'English'],
+    },
+    sameAs: SITE_CONFIG.socialLinks,
   };
 }
 
@@ -152,10 +191,30 @@ export function createWebsiteJsonLd() {
     name: SITE_CONFIG.name,
     url: absoluteUrl('/'),
     inLanguage: ['hi-IN', 'en-IN'],
+    publisher: {
+      '@type': 'Organization',
+      name: SITE_CONFIG.name,
+      url: absoluteUrl('/'),
+    },
     potentialAction: {
       '@type': 'SearchAction',
       target: `${absoluteUrl('/search')}?q={search_term_string}`,
       'query-input': 'required name=search_term_string',
+    },
+  };
+}
+
+export function createAuthorJsonLd() {
+  return {
+    '@type': 'Person',
+    name: AUTHOR_CONFIG.name,
+    jobTitle: AUTHOR_CONFIG.role,
+    description: AUTHOR_CONFIG.description,
+    url: absoluteUrl(AUTHOR_CONFIG.url),
+    worksFor: {
+      '@type': 'Organization',
+      name: SITE_CONFIG.name,
+      url: absoluteUrl('/'),
     },
   };
 }

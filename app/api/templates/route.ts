@@ -5,6 +5,7 @@ import { connectDB } from '@/lib/db/mongoose';
 import Template from '@/lib/db/models/Template';
 import { validateTemplateData } from '@/lib/utils/validation';
 import { slugify, generateUniqueSlug } from '@/lib/utils/slugify';
+import { revalidatePath } from 'next/cache';
 
 export async function GET(request: NextRequest) {
   try {
@@ -57,6 +58,12 @@ export async function POST(request: NextRequest) {
       ...data,
       slug,
     });
+
+    // On-Demand Revalidation: Purge cache for homepage, templates pages & sitemap on template creation
+    revalidatePath('/');
+    revalidatePath('/templates');
+    revalidatePath(`/templates/${slug}`);
+    revalidatePath('/sitemap.xml');
 
     return NextResponse.json({
       template,

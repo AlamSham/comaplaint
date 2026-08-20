@@ -136,7 +136,7 @@ export default async function TemplatePage({ params }: { params: Promise<{ slug:
     dateModified: template.updatedAt,
     publisher: {
       '@type': 'Organization',
-      name: 'Consumer Complaint Portal',
+      name: 'ShikayatKaro',
       url: absoluteUrl('/'),
     },
     ...(template.guideRef

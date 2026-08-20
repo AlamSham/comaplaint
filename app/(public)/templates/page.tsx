@@ -34,7 +34,7 @@ export async function generateMetadata({
   const hasFilters = params.language && params.language !== 'all';
   
   return createPageMetadata({
-    title: 'Complaint Templates | Consumer Complaint Portal',
+    title: 'Complaint Templates (2026) — शिकायत टेम्पलेट',
     description:
       'Ready-made consumer complaint letter templates in Hindi, English, and Hinglish for RC transfer, refunds, banking, telecom, RERA, and insurance issues.',
     path: '/templates',
@@ -42,9 +42,15 @@ export async function generateMetadata({
     keywords: [
       'complaint letter template',
       'consumer complaint format',
-      'शिकायत पत्र फॉर्मेट',
-      'complaint letter Hindi',
+      'शिकायत पत्र फॉर्मेट हिंदी',
+      'complaint letter Hindi format',
       'RC transfer complaint letter',
+      'bank complaint letter format Hindi',
+      'cheque bounce legal notice format',
+      'flipkart refund complaint mail format',
+      'builder delay complaint letter',
+      'online refund request letter',
+      'शिकायत आवेदन पत्र',
     ],
   });
 }
@@ -152,9 +158,6 @@ export default async function TemplatesPage({
                 </p>
                 <div className="flex items-center justify-between gap-3 text-sm">
                   <span className="font-semibold text-emerald-700">Open template →</span>
-                  <span className="text-gray-500">
-                    {template.downloadCount} downloads
-                  </span>
                 </div>
                 {template.guideRef && (
                   <div className="mt-4 border-t border-stone-200 pt-3 text-xs text-gray-500">

@@ -1,8 +1,9 @@
 import { createPageMetadata } from '@/lib/seo';
 
 export const metadata = createPageMetadata({
-  title: 'Privacy Policy',
-  description: 'Privacy policy and data protection practices of Consumer Complaint Portal.',
+  title: 'Privacy Policy — गोपनीयता नीति',
+  description:
+    'ShikayatKaro गोपनीयता नीति। Privacy policy and data protection practices — we respect your privacy. IT Act 2000 compliant.',
   path: '/privacy',
 });
 
