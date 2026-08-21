@@ -15,9 +15,10 @@ export function Header() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <span className="text-xl font-bold text-blue-600">
-              ShikayatKaro
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <img src="/logo.svg" alt="ShikayatKaro Logo" className="h-9 w-9 transition-transform group-hover:scale-105" />
+            <span className="text-xl font-extrabold tracking-tight text-gray-900">
+              Shikayat<span className="text-emerald-700">Karo</span>
             </span>
           </Link>
 
@@ -51,7 +52,7 @@ export function Header() {
                   : 'text-gray-700 hover:text-blue-600'
               }`}
             >
-              Templates
+              Templates <span className="ml-1 px-1.5 py-0.5 text-[10px] font-bold bg-emerald-100 text-emerald-800 rounded">PDF</span>
             </Link>
             <Link
               href="/portals"

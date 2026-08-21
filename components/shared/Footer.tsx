@@ -7,11 +7,16 @@ export function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">About</h3>
+            <div className="flex items-center gap-2.5 mb-4">
+              <img src="/logo.svg" alt="ShikayatKaro Logo" className="h-8 w-8" />
+              <span className="text-xl font-extrabold tracking-tight text-white">
+                Shikayat<span className="text-emerald-500">Karo</span>
+              </span>
+            </div>
             <p className="text-gray-400 text-sm mb-4">
-              Consumer Complaint Portal helps Indian consumers file complaints effectively.
+              ShikayatKaro helps Indian consumers file complaints effectively with step-by-step guides, legal letter formats, and direct portal links.
             </p>
-            <Link href="/about" className="text-blue-400 hover:text-blue-300 text-sm transition">
+            <Link href="/about" className="text-emerald-400 hover:text-emerald-300 text-sm transition">
               Learn More →
             </Link>
           </div>

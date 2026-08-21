@@ -28,16 +28,55 @@ export default function CopyButton({ content, slug }: CopyButtonProps) {
     }
   };
 
+  const handlePrint = () => {
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
+
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Complaint Letter - ShikayatKaro</title>
+          <style>
+            body { font-family: sans-serif; padding: 40px; line-height: 1.6; color: #111; }
+            h1 { font-size: 18px; margin-bottom: 20px; border-bottom: 2px solid #047857; padding-bottom: 10px; }
+            pre { font-family: inherit; white-space: pre-wrap; word-break: break-word; font-size: 14px; }
+            .footer { margin-top: 40px; font-size: 11px; color: #666; border-top: 1px solid #ddd; padding-top: 10px; }
+          </style>
+        </head>
+        <body>
+          <h1>ShikayatKaro — Consumer Complaint Format</h1>
+          <pre>${content}</pre>
+          <div class="footer">Generated via ShikayatKaro (https://shikayatkaro.com) • Free Legal Complaint Format</div>
+          <script>
+            window.onload = function() {
+              window.print();
+            };
+          </script>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+  };
+
   return (
-    <button
-      onClick={handleCopy}
-      className={`px-4 py-2 rounded-md font-medium transition ${
-        copied
-          ? 'bg-green-600 text-white'
-          : 'bg-blue-600 text-white hover:bg-blue-700'
-      }`}
-    >
-      {copied ? '✓ Copied!' : 'Copy Template'}
-    </button>
+    <div className="flex items-center gap-2">
+      <button
+        onClick={handleCopy}
+        className={`px-4 py-2.5 rounded-lg text-sm font-semibold transition flex items-center gap-1.5 ${
+          copied
+            ? 'bg-emerald-700 text-white'
+            : 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm'
+        }`}
+      >
+        {copied ? '✓ Copied!' : '📋 Copy Text'}
+      </button>
+      <button
+        onClick={handlePrint}
+        className="px-4 py-2.5 rounded-lg text-sm font-semibold bg-stone-900 text-white hover:bg-stone-800 transition shadow-sm flex items-center gap-1.5"
+      >
+        📄 Download PDF / Print
+      </button>
+    </div>
   );
 }

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#047857"/>
+      <stop offset="100%" stop-color="#064e3b"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#047857" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Shield Base -->
+  <path d="M256 32C344 32 432 64 432 64V240C432 360 256 464 256 464C256 464 80 360 80 240V64C80 64 168 32 256 32Z" fill="url(#shieldGrad)" filter="url(#shadow)"/>
+  
+  <!-- Inner Shield Glow Line -->
+  <path d="M256 56C328 56 400 82 400 82V232C400 332 256 424 256 424C256 424 112 332 112 232V82C112 82 184 56 256 56Z" fill="none" stroke="url(#accentGrad)" stroke-width="4" opacity="0.4"/>
+
+  <!-- Scales of Justice + Checkmark Emblem -->
+  <!-- Center Pillar -->
+  <rect x="246" y="140" width="20" height="190" rx="10" fill="#FFFFFF"/>
+  <path d="M220 330H292V346C292 351.523 287.523 356 282 356H230C224.477 356 220 351.523 220 346V330Z" fill="#FFFFFF"/>
+
+  <!-- Scale Beam -->
+  <path d="M140 180C140 174.477 144.477 170 150 170H362C367.523 170 372 174.477 372 180V184C372 189.523 367.523 190 362 190H150C144.477 190 140 189.523 140 184V180Z" fill="#FFFFFF"/>
+
+  <!-- Left Scale Pan & Strings -->
+  <path d="M160 190L135 250M160 190L185 250" stroke="#E2E8F0" stroke-width="4" stroke-linecap="round"/>
+  <path d="M120 250C120 250 130 270 160 270C190 270 200 250 200 250H120Z" fill="url(#accentGrad)"/>
+
+  <!-- Right Scale Pan & Strings -->
+  <path d="M352 190L327 250M352 190L377 250" stroke="#E2E8F0" stroke-width="4" stroke-linecap="round"/>
+  <path d="M312 250C312 250 322 270 352 270C382 270 392 250 392 250H312Z" fill="url(#accentGrad)"/>
+
+  <!-- Modern Shield Top Badge (Checkmark) -->
+  <circle cx="256" cy="130" r="32" fill="url(#accentGrad)"/>
+  <path d="M242 130L252 140L272 120" stroke="#047857" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
