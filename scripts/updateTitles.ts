@@ -20,10 +20,10 @@ const titleUpdates: TitleUpdate[] = [
   },
   {
     slug: 'flipkart-complaint-filing',
-    title: 'Flipkart Refund Nahi Aaya? Complaint Guide (2026)',
-    metaTitle: 'Flipkart Refund Nahi Aaya? Complaint Kaise Kare — Steps + Email Format (2026)',
+    title: 'Flipkart Refund Nahi Aaya? Complaint Kaise Kare — Email, Delivery Boy & NCH Guide (2026)',
+    metaTitle: 'Flipkart Refund Nahi Aaya? Customer Care Number, Delivery Boy Complaint & Email (2026)',
     metaDescription:
-      'Flipkart refund stuck, wrong product, missing item ki complaint process — customer care 1800-208-9898, NCH escalation, aur consumer court filing guide.',
+      'Flipkart refund pending, wrong product, delivery boy bad behavior ya fake delivered status ki complaint kaise karein — Flipkart Email ID (support@flipkart.com), Customer Care 1800-208-9898, NCH 1915 helpline aur legal notice guide.',
   },
   {
     slug: 'meesho-refund-return-complaint-guide',
