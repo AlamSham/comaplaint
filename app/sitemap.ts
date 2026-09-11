@@ -5,6 +5,8 @@ import Template from '@/lib/db/models/Template';
 import { getBaseUrl } from '@/lib/seo';
 import { CATEGORIES } from '@/lib/constants';
 
+export const revalidate = 3600; // Cache sitemap on Vercel Edge for 1 hour
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = getBaseUrl();
   const now = new Date();
