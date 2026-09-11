@@ -18,6 +18,7 @@
     "upsert:traffic-content": "tsx lib/db/upsertTrafficContent.ts",
     "upsert:all": "tsx scripts/upsertAllExpansionSafe.ts",
     "optimize:top": "tsx scripts/hyperOptimizeTopPages.ts",
+    "index:all": "tsx scripts/submitGoogleIndexing.ts",
     "db:reset": "tsx lib/db/reset.ts"
   },
   "dependencies": {

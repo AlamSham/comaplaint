@@ -23,6 +23,9 @@
 # misc
 .DS_Store
 *.pem
+service_account.json
+*service_account*.json
+aqueous-*.json
 
 # debug
 npm-debug.log*
