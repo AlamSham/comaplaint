@@ -301,10 +301,32 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
                 </p>
               </div>
 
-              <section id="summary" className="mb-8 rounded-lg border border-emerald-200 bg-emerald-50 p-5">
+              <section id="summary" className="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 p-5">
                 <h2 className="text-xl font-bold text-emerald-950 mb-3">Quick Summary (संक्षेप में)</h2>
                 <p className="text-emerald-950 leading-7">{guide.metadata.description}</p>
               </section>
+
+              {/* AI Search & Perplexity Quick Action Summary Card */}
+              <div className="rounded-lg border border-emerald-200 bg-emerald-50/90 p-5 mb-8">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-900 mb-3">
+                  <span className="inline-block h-2 w-2 rounded-full bg-emerald-600 animate-pulse" />
+                  Key Action Steps (AI & Search Overview)
+                </div>
+                <div className="grid md:grid-cols-3 gap-3 text-sm text-emerald-950">
+                  <div className="rounded bg-white/90 p-3.5 border border-emerald-100">
+                    <span className="font-bold block text-emerald-900 mb-1">1. Customer Support First</span>
+                    Raise in-app ticket or call official helpline. Always note the formal Complaint Docket ID.
+                  </div>
+                  <div className="rounded bg-white/90 p-3.5 border border-emerald-100">
+                    <span className="font-bold block text-emerald-900 mb-1">2. Grievance Escalation</span>
+                    If unresolved within promised SLA, email the company Nodal/Grievance Officer with attached proof.
+                  </div>
+                  <div className="rounded bg-white/90 p-3.5 border border-emerald-100">
+                    <span className="font-bold block text-emerald-900 mb-1">3. Legal / Govt Redressal</span>
+                    Lodge free grievance on National Consumer Helpline (1915) or file claim on e-Daakhil.
+                  </div>
+                </div>
+              </div>
 
               <section className="mb-8">
                 <h2 className="text-2xl font-bold text-gray-950 mb-4">Complete Guide</h2>
