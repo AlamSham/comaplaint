@@ -15,16 +15,25 @@ export default async function Image({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
+  let title = 'Complaint Letter Template';
+  let language = 'Hindi';
+  let downloads = 0;
 
-  await connectDB();
-  const template = await Template.findOne({ slug })
-    .select('title language downloadCount')
-    .lean() as { title: string; language: Language; downloadCount: number } | null;
+  try {
+    const { slug } = await params;
+    await connectDB();
+    const template = await Template.findOne({ slug })
+      .select('title language downloadCount')
+      .lean() as { title: string; language: Language; downloadCount: number } | null;
 
-  const title = template?.title || 'Complaint Letter Template';
-  const language = template?.language ? LANGUAGE_LABELS[template.language] : 'Hindi';
-  const downloads = template?.downloadCount || 0;
+    if (template) {
+      title = template.title || title;
+      language = template.language ? LANGUAGE_LABELS[template.language] : language;
+      downloads = template.downloadCount || 0;
+    }
+  } catch (error) {
+    console.warn('Template OpenGraph image fallback:', error);
+  }
 
   return new ImageResponse(
     (

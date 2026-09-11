@@ -15,16 +15,25 @@ export default async function Image({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
+  let title = 'Consumer Complaint Guide';
+  let category = 'Guide';
+  let language = 'Hinglish';
 
-  await connectDB();
-  const guide = await Guide.findOne({ slug, published: true })
-    .select('title category language')
-    .lean() as { title: string; category: Category; language: string } | null;
+  try {
+    const { slug } = await params;
+    await connectDB();
+    const guide = await Guide.findOne({ slug, published: true })
+      .select('title category language')
+      .lean() as { title: string; category: Category; language: string } | null;
 
-  const title = guide?.title || 'Consumer Complaint Guide';
-  const category = guide?.category ? CATEGORY_LABELS[guide.category] : 'Guide';
-  const language = guide?.language === 'hindi' ? 'हिंदी' : guide?.language === 'english' ? 'English' : 'Hinglish';
+    if (guide) {
+      title = guide.title || title;
+      category = guide.category ? CATEGORY_LABELS[guide.category] : category;
+      language = guide.language === 'hindi' ? 'हिंदी' : guide.language === 'english' ? 'English' : 'Hinglish';
+    }
+  } catch (error) {
+    console.warn('Guide OpenGraph image fallback:', error);
+  }
 
   return new ImageResponse(
     (
