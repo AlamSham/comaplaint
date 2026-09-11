@@ -132,6 +132,13 @@ export default function RootLayout({
         </Providers>
         <Analytics />
         <SpeedInsights />
+        {/* Monetag MultiTag (All-In-One High Revenue Zone: 278854) */}
+        <Script
+          src="https://quge5.com/88/tag.min.js"
+          strategy="afterInteractive"
+          data-zone="278854"
+          data-cfasync="false"
+        />
         {/* Monetag Web Push Ad Monetization (Zone: 11772477) */}
         <Script
           src="https://5gvci.com/pfe/current/tag.min.js?z=11772477"
