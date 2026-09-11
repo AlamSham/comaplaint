@@ -11,7 +11,7 @@ describe('SEO utilities', () => {
 
     expect(metadata.title).toBe('Test Guide');
     expect(metadata.description).toBe('Test description for consumer portal');
-    expect(metadata.alternates?.canonical).toBe('/guides/test-guide');
+    expect(metadata.alternates?.canonical).toBe('https://shikayatkaro.com/guides/test-guide');
   });
 
   it('formats absolute URLs correctly', () => {

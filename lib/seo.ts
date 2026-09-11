@@ -73,7 +73,7 @@ type MetadataOptions = {
 };
 
 export function getBaseUrl() {
-  return (process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000').replace(/\/+$/, '');
+  return (process.env.NEXT_PUBLIC_BASE_URL || 'https://shikayatkaro.com').replace(/\/+$/, '');
 }
 
 export function absoluteUrl(path = '/') {
@@ -86,11 +86,7 @@ export function absoluteUrl(path = '/') {
 }
 
 export function canonicalPath(path = '/') {
-  if (/^https?:\/\//i.test(path)) {
-    return path;
-  }
-
-  return path.startsWith('/') ? path : `/${path}`;
+  return absoluteUrl(path);
 }
 
 export function createPageMetadata({
@@ -104,7 +100,7 @@ export function createPageMetadata({
   publishedTime,
   modifiedTime,
 }: MetadataOptions): Metadata {
-  const canonical = canonicalPath(path);
+  const canonical = absoluteUrl(path);
   // Each page defines its OWN keywords — no more global merging (fixes keyword cannibalization)
   const robots = noIndex
     ? {

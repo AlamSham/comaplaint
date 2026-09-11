@@ -56,11 +56,6 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "/",
-    languages: {
-      'hi-IN': '/',
-      'en-IN': '/',
-      'x-default': '/',
-    },
   },
   openGraph: {
     title: SITE_CONFIG.title,
@@ -137,6 +132,12 @@ export default function RootLayout({
         </Providers>
         <Analytics />
         <SpeedInsights />
+        {/* Monetag Web Push Ad Monetization (Zone: 11772477) */}
+        <Script
+          src="https://5gvci.com/pfe/current/tag.min.js?z=11772477"
+          strategy="afterInteractive"
+          data-cfasync="false"
+        />
       </body>
     </html>
   );

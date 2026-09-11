@@ -61,12 +61,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     }
 
     const languageLabel = template.language === 'hindi' ? 'Hindi' : template.language === 'english' ? 'English' : 'Hinglish';
-    const defaultTitle = `${template.title} - Free ${languageLabel} Format | शिकायत पत्र`;
-    const defaultDescription = `${template.title} - Free complaint letter sample in ${languageLabel}. Copy, customize with your details, and submit to the right authority. Ready-made format for Indian consumers. शिकायत पत्र फॉर्मेट।`;
+    const isHindi = template.language === 'hindi';
+    
+    // High-CTR search intent terms: users actively search for 'PDF', 'Format', 'Download'
+    let metaTitle = template.metadata?.title || `${template.title} - Free ${languageLabel} Format | शिकायत पत्र`;
+    if (!metaTitle.toLowerCase().includes('pdf')) {
+      metaTitle = isHindi ? `${metaTitle} [PDF प्रारूप]` : `${metaTitle} [PDF Download]`;
+    }
+
+    let metaDescription = template.metadata?.description || `${template.title} - Free complaint letter sample in ${languageLabel}. Copy, customize with your details, and submit to the right authority. Ready-made format for Indian consumers. शिकायत पत्र फॉर्मेट।`;
+    if (!metaDescription.toLowerCase().includes('pdf') && !metaDescription.toLowerCase().includes('download')) {
+      metaDescription = `${metaDescription} Free PDF download & instant copy-paste format.`;
+    }
 
     return createPageMetadata({
-      title: template.metadata?.title || defaultTitle,
-      description: template.metadata?.description || defaultDescription,
+      title: metaTitle,
+      description: metaDescription,
       path: `/templates/${slug}`,
       type: 'article',
       titleAbsolute: true,

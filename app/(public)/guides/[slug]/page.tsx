@@ -13,7 +13,7 @@ import { JsonLd } from '@/components/shared/JsonLd';
 import { ViewTracker } from '@/components/shared/ViewTracker';
 import { absoluteUrl, createPageMetadata, createAuthorJsonLd, AUTHOR_CONFIG } from '@/lib/seo';
 import { getReadingMinutes } from '@/lib/content/publicSections';
-import { createHowToJsonLd } from '@/lib/content/faqData';
+import { createHowToJsonLd, createFaqJsonLd, CATEGORY_FAQS } from '@/lib/content/faqData';
 
 type PopulatedPortal = {
   _id: { toString(): string };
@@ -175,7 +175,9 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
       )
     : null;
 
-
+  // FAQ schema for rich snippet expansion in Google
+  const faqs = CATEGORY_FAQS[guide.category] || [];
+  const faqJsonLd = faqs.length > 0 ? createFaqJsonLd(faqs.slice(0, 5)) : null;
 
   const breadcrumbs = [
     { name: 'Home', href: '/' },
@@ -194,6 +196,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
     <div className="min-h-screen bg-gray-50">
       <JsonLd data={articleJsonLd} />
       {howToJsonLd && <JsonLd data={howToJsonLd} />}
+      {faqJsonLd && <JsonLd data={faqJsonLd} />}
 
       <ViewTracker slug={slug} type="guide" />
       
@@ -212,6 +215,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
                   ['process', 'Steps'],
                   templates.length > 0 ? ['templates', 'Templates'] : null,
                   guide.portals && guide.portals.length > 0 ? ['portals', 'Official portals'] : null,
+                  faqs.length > 0 ? ['faqs', 'FAQs'] : null,
                 ]
                   .filter(Boolean)
                   .map((item) => {
@@ -408,6 +412,31 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
             )}
 
 
+
+            {/* Frequently Asked Questions */}
+            {faqs.length > 0 && (
+              <section id="faqs" className="bg-white rounded-lg border border-stone-200 p-6 md:p-8 mb-8">
+                <h2 className="text-2xl font-bold text-gray-950 mb-2">
+                  Frequently Asked Questions (FAQs)
+                </h2>
+                <p className="text-gray-600 mb-5">
+                  Common queries regarding {CATEGORY_LABELS[guide.category]} complaints and consumer rights in India.
+                </p>
+                <div className="space-y-4">
+                  {faqs.slice(0, 5).map((faq, index) => (
+                    <details key={index} className="group rounded-lg border border-stone-200 p-4 transition open:bg-emerald-50/30">
+                      <summary className="flex cursor-pointer items-center justify-between font-semibold text-gray-950">
+                        <span>{faq.question}</span>
+                        <span className="ml-4 transition group-open:rotate-180 text-emerald-700 font-bold">▾</span>
+                      </summary>
+                      <p className="mt-3 text-sm leading-7 text-gray-700 border-t border-stone-100 pt-3">
+                        {faq.answer}
+                      </p>
+                    </details>
+                  ))}
+                </div>
+              </section>
+            )}
 
             {/* Related Guides - Internal Linking */}
             {relatedGuides.length > 0 && (
