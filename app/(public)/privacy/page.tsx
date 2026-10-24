@@ -108,14 +108,48 @@ export default function PrivacyPage() {
               We use the following third-party services that may collect information:
             </p>
 
-            <h3 className="text-xl font-semibold text-gray-900 mb-3">6.1 Google AdSense</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-3">6.1 Google AdSense and Advertising</h3>
             <p className="text-gray-700 mb-4">
-              We use Google AdSense to display advertisements. Google may use cookies to show ads based on your interests.
+              We use Google AdSense to serve advertisements on our website.
             </p>
+            <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-4">
+              <li>
+                Third-party vendors, including Google, use cookies to serve ads based on a user&apos;s prior visits to this website or other websites on the Internet.
+              </li>
+              <li>
+                Google&apos;s use of advertising cookies enables it and its partners to serve ads to users based on their visit to our site and/or other sites on the Internet.
+              </li>
+              <li>
+                Users may opt out of personalized advertising by visiting{' '}
+                <a
+                  href="https://www.google.com/settings/ads"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline"
+                >
+                  Google Ads Settings
+                </a>{' '}
+                or by visiting{' '}
+                <a
+                  href="https://www.aboutads.info/choices/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline"
+                >
+                  www.aboutads.info
+                </a>.
+              </li>
+            </ul>
             <p className="text-gray-700 mb-4">
-              <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                Google Privacy Policy
-              </a>
+              For more details on how Google uses data when you use our partners&apos; sites or apps, please review{' '}
+              <a
+                href="https://policies.google.com/technologies/partner-sites"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:underline"
+              >
+                How Google uses information from sites or apps that use our services
+              </a>.
             </p>
 
             <h3 className="text-xl font-semibold text-gray-900 mb-3">6.2 Vercel Analytics</h3>

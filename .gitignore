@@ -26,6 +26,8 @@
 service_account.json
 *service_account*.json
 aqueous-*.json
+__pycache__/
+*.pyc
 
 # debug
 npm-debug.log*
